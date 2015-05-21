@@ -1,0 +1,377 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.4 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist{ecnty}{ecnty}
+    \entry{spatch}{inproceedings}{}
+      \name{labelname}{5}{}{%
+        {{hash=e81b973be16c59dadd9ca59a9172c118}{Andersen}{A\bibinitperiod}{Jesper}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=514259b21ffae8a29b8b401b0a0dd030}{Nguyen}{N\bibinitperiod}{Anh\bibnamedelima Cuong}{A\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+        {{hash=cac8ebdbf2f8a8f2b7f49f6e737c2649}{Lo}{L\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=6be8ed9ad2be0c7967de14d0e8fbb67b}{Lawall}{L\bibinitperiod}{Julia\bibnamedelima L}{J\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{hash=36bf3e16ef63261d739ded28784abbb5}{Khoo}{K\bibinitperiod}{Siau-Cheng}{S\bibinithyphendelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{5}{}{%
+        {{hash=e81b973be16c59dadd9ca59a9172c118}{Andersen}{A\bibinitperiod}{Jesper}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=514259b21ffae8a29b8b401b0a0dd030}{Nguyen}{N\bibinitperiod}{Anh\bibnamedelima Cuong}{A\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+        {{hash=cac8ebdbf2f8a8f2b7f49f6e737c2649}{Lo}{L\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=6be8ed9ad2be0c7967de14d0e8fbb67b}{Lawall}{L\bibinitperiod}{Julia\bibnamedelima L}{J\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{hash=36bf3e16ef63261d739ded28784abbb5}{Khoo}{K\bibinitperiod}{Siau-Cheng}{S\bibinithyphendelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{25fd3e6fe7622a85a32e333263ee570d}
+      \strng{fullhash}{8db419a36a0d6c94ce97f1d6ba36f1ae}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Semantic patch inference}}
+      \field{booktitle}{ASE}
+      \field{title}{{Semantic patch inference}}
+      \field{userf}{en}
+      \field{year}{2012}
+      \field{pages}{382\bibrangedash 385}
+    \endentry
+    \entry{test-en}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=a517747c3d12f99244ae598910d979c5}{Author}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=a517747c3d12f99244ae598910d979c5}{Author}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{a517747c3d12f99244ae598910d979c5}
+      \strng{fullhash}{a517747c3d12f99244ae598910d979c5}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{Title}
+      \field{day}{01}
+      \field{journaltitle}{Journal}
+      \field{month}{04}
+      \field{title}{Title}
+      \field{type}{J}
+      \field{userf}{en}
+      \field{year}{2014}
+    \endentry
+    \entry{stratego}{article}{}
+      \name{labelname}{4}{}{%
+        {{hash=96ba05fdfa514a7759c223c4fd6adf99}{Bravenboer}{B\bibinitperiod}{Martin}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=4be9bff980ee012951badb5426fac292}{Kalleberg}{K\bibinitperiod}{Karl\bibnamedelima Trygve}{K\bibinitperiod\bibinitdelim T\bibinitperiod}{}{}{}{}}%
+        {{hash=b716d767cf0c329bb983e573c564fb40}{Vermaas}{V\bibinitperiod}{Rob}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=05c571c161af3b68085a0f3a9cb29efa}{Visser}{V\bibinitperiod}{Eelco}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=96ba05fdfa514a7759c223c4fd6adf99}{Bravenboer}{B\bibinitperiod}{Martin}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=4be9bff980ee012951badb5426fac292}{Kalleberg}{K\bibinitperiod}{Karl\bibnamedelima Trygve}{K\bibinitperiod\bibinitdelim T\bibinitperiod}{}{}{}{}}%
+        {{hash=b716d767cf0c329bb983e573c564fb40}{Vermaas}{V\bibinitperiod}{Rob}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=05c571c161af3b68085a0f3a9cb29efa}{Visser}{V\bibinitperiod}{Eelco}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{4dc9b5b75fcb5748b47869d03af3c51e}
+      \strng{fullhash}{cd7211d33abe141827e39140aec32cb5}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Stratego/XT 0.17. A Language and Toolset for Program Transformation}}
+      \field{journaltitle}{Sci. Comput. Program.}
+      \field{title}{{Stratego/XT 0.17. A Language and Toolset for Program Transformation}}
+      \field{userf}{en}
+      \field{year}{2008}
+      \field{pages}{52\bibrangedash 70}
+    \endentry
+    \entry{txl}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=b59d0a91cb1f0230887dceb2c6b4b2b9}{Cordy}{C\bibinitperiod}{James\bibnamedelima R.}{J\bibinitperiod\bibinitdelim R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=b59d0a91cb1f0230887dceb2c6b4b2b9}{Cordy}{C\bibinitperiod}{James\bibnamedelima R.}{J\bibinitperiod\bibinitdelim R\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{b59d0a91cb1f0230887dceb2c6b4b2b9}
+      \strng{fullhash}{b59d0a91cb1f0230887dceb2c6b4b2b9}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{The TXL Source Transformation Language}}
+      \field{journaltitle}{Sci. Comput. Program.}
+      \field{title}{{The TXL Source Transformation Language}}
+      \field{userf}{en}
+      \field{year}{2006}
+      \field{pages}{190\bibrangedash 210}
+    \endentry
+    \entry{twinning}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=c4e4f9e879082c5b8fab4b382403e456}{Nita}{N\bibinitperiod}{Marius}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=c63a539690d8b3e7857c641c0a06cbad}{Notkin}{N\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=c4e4f9e879082c5b8fab4b382403e456}{Nita}{N\bibinitperiod}{Marius}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=c63a539690d8b3e7857c641c0a06cbad}{Notkin}{N\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{c74086f4c976ce2f25a2b211250188ef}
+      \strng{fullhash}{c74086f4c976ce2f25a2b211250188ef}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Using Twinning to Adapt Programs to Alternative APIs}}
+      \field{booktitle}{ICSE}
+      \field{title}{{Using Twinning to Adapt Programs to Alternative APIs}}
+      \field{userf}{en}
+      \field{year}{2010}
+      \field{pages}{205\bibrangedash 214}
+    \endentry
+    \entry{python}{book}{}
+      \name{labelname}{1}{}{%
+        {{hash=10d2619f246e150f88aa39912ea3ea6d}{Pilgrim}{P\bibinitperiod}{Mark}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=10d2619f246e150f88aa39912ea3ea6d}{Pilgrim}{P\bibinitperiod}{Mark}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {APress}%
+      }
+      \strng{namehash}{10d2619f246e150f88aa39912ea3ea6d}
+      \strng{fullhash}{10d2619f246e150f88aa39912ea3ea6d}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Dive Into Python 3}}
+      \field{title}{{Dive Into Python 3}}
+      \field{userf}{en}
+      \field{year}{2009}
+    \endentry
+    \entry{swing2swt}{inproceedings}{}
+      \name{labelname}{3}{}{%
+        {{hash=6bd2f6628b14056fd089c3bcf058d713}{Tonelli}{T\bibinitperiod}{Thiago}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=7c58d5610b1c05a26c699c35c2774419}{Krzysztof}{K\bibinitperiod}{}{}{}{}{}{}}%
+        {{hash=8703f5634653c109c466a46af87bf136}{Ralf}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=6bd2f6628b14056fd089c3bcf058d713}{Tonelli}{T\bibinitperiod}{Thiago}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=7c58d5610b1c05a26c699c35c2774419}{Krzysztof}{K\bibinitperiod}{}{}{}{}{}{}}%
+        {{hash=8703f5634653c109c466a46af87bf136}{Ralf}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{c3216aecd93c850c62404a971d747139}
+      \strng{fullhash}{c3216aecd93c850c62404a971d747139}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Swing to SWT and Back: Patterns for API Migration by Wrapping}}
+      \field{booktitle}{ICSM}
+      \field{title}{{Swing to SWT and Back: Patterns for API Migration by Wrapping}}
+      \field{userf}{en}
+      \field{year}{2010}
+      \field{pages}{1\bibrangedash 10}
+    \endentry
+    \entry{test-zh}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=62cea74981b60712a7cd869a9a021869}{作者}{作\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=62cea74981b60712a7cd869a9a021869}{作者}{作\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \strng{namehash}{62cea74981b60712a7cd869a9a021869}
+      \strng{fullhash}{62cea74981b60712a7cd869a9a021869}
+      \field{sortinit}{z}
+      \field{sortinithash}{9cca09897f0dfd9ed260e065f6d82cd6}
+      \field{labeltitle}{标题}
+      \field{day}{01}
+      \field{journaltitle}{期刊}
+      \field{month}{04}
+      \field{title}{标题}
+      \field{type}{J}
+      \field{userf}{zh}
+      \field{year}{2014}
+    \endentry
+  \endsortlist
+  \sortlist{none}{none}
+    \entry{python}{book}{}
+      \name{labelname}{1}{}{%
+        {{hash=10d2619f246e150f88aa39912ea3ea6d}{Pilgrim}{P\bibinitperiod}{Mark}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=10d2619f246e150f88aa39912ea3ea6d}{Pilgrim}{P\bibinitperiod}{Mark}{M\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {APress}%
+      }
+      \strng{namehash}{10d2619f246e150f88aa39912ea3ea6d}
+      \strng{fullhash}{10d2619f246e150f88aa39912ea3ea6d}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Dive Into Python 3}}
+      \field{title}{{Dive Into Python 3}}
+      \field{userf}{en}
+      \field{year}{2009}
+    \endentry
+    \entry{twinning}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=c4e4f9e879082c5b8fab4b382403e456}{Nita}{N\bibinitperiod}{Marius}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=c63a539690d8b3e7857c641c0a06cbad}{Notkin}{N\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=c4e4f9e879082c5b8fab4b382403e456}{Nita}{N\bibinitperiod}{Marius}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=c63a539690d8b3e7857c641c0a06cbad}{Notkin}{N\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{c74086f4c976ce2f25a2b211250188ef}
+      \strng{fullhash}{c74086f4c976ce2f25a2b211250188ef}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Using Twinning to Adapt Programs to Alternative APIs}}
+      \field{booktitle}{ICSE}
+      \field{title}{{Using Twinning to Adapt Programs to Alternative APIs}}
+      \field{userf}{en}
+      \field{year}{2010}
+      \field{pages}{205\bibrangedash 214}
+    \endentry
+    \entry{stratego}{article}{}
+      \name{labelname}{4}{}{%
+        {{hash=96ba05fdfa514a7759c223c4fd6adf99}{Bravenboer}{B\bibinitperiod}{Martin}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=4be9bff980ee012951badb5426fac292}{Kalleberg}{K\bibinitperiod}{Karl\bibnamedelima Trygve}{K\bibinitperiod\bibinitdelim T\bibinitperiod}{}{}{}{}}%
+        {{hash=b716d767cf0c329bb983e573c564fb40}{Vermaas}{V\bibinitperiod}{Rob}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=05c571c161af3b68085a0f3a9cb29efa}{Visser}{V\bibinitperiod}{Eelco}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=96ba05fdfa514a7759c223c4fd6adf99}{Bravenboer}{B\bibinitperiod}{Martin}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=4be9bff980ee012951badb5426fac292}{Kalleberg}{K\bibinitperiod}{Karl\bibnamedelima Trygve}{K\bibinitperiod\bibinitdelim T\bibinitperiod}{}{}{}{}}%
+        {{hash=b716d767cf0c329bb983e573c564fb40}{Vermaas}{V\bibinitperiod}{Rob}{R\bibinitperiod}{}{}{}{}}%
+        {{hash=05c571c161af3b68085a0f3a9cb29efa}{Visser}{V\bibinitperiod}{Eelco}{E\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{4dc9b5b75fcb5748b47869d03af3c51e}
+      \strng{fullhash}{cd7211d33abe141827e39140aec32cb5}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Stratego/XT 0.17. A Language and Toolset for Program Transformation}}
+      \field{journaltitle}{Sci. Comput. Program.}
+      \field{title}{{Stratego/XT 0.17. A Language and Toolset for Program Transformation}}
+      \field{userf}{en}
+      \field{year}{2008}
+      \field{pages}{52\bibrangedash 70}
+    \endentry
+    \entry{txl}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=b59d0a91cb1f0230887dceb2c6b4b2b9}{Cordy}{C\bibinitperiod}{James\bibnamedelima R.}{J\bibinitperiod\bibinitdelim R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=b59d0a91cb1f0230887dceb2c6b4b2b9}{Cordy}{C\bibinitperiod}{James\bibnamedelima R.}{J\bibinitperiod\bibinitdelim R\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{b59d0a91cb1f0230887dceb2c6b4b2b9}
+      \strng{fullhash}{b59d0a91cb1f0230887dceb2c6b4b2b9}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{The TXL Source Transformation Language}}
+      \field{journaltitle}{Sci. Comput. Program.}
+      \field{title}{{The TXL Source Transformation Language}}
+      \field{userf}{en}
+      \field{year}{2006}
+      \field{pages}{190\bibrangedash 210}
+    \endentry
+    \entry{swing2swt}{inproceedings}{}
+      \name{labelname}{3}{}{%
+        {{hash=6bd2f6628b14056fd089c3bcf058d713}{Tonelli}{T\bibinitperiod}{Thiago}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=7c58d5610b1c05a26c699c35c2774419}{Krzysztof}{K\bibinitperiod}{}{}{}{}{}{}}%
+        {{hash=8703f5634653c109c466a46af87bf136}{Ralf}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=6bd2f6628b14056fd089c3bcf058d713}{Tonelli}{T\bibinitperiod}{Thiago}{T\bibinitperiod}{}{}{}{}}%
+        {{hash=7c58d5610b1c05a26c699c35c2774419}{Krzysztof}{K\bibinitperiod}{}{}{}{}{}{}}%
+        {{hash=8703f5634653c109c466a46af87bf136}{Ralf}{R\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \strng{namehash}{c3216aecd93c850c62404a971d747139}
+      \strng{fullhash}{c3216aecd93c850c62404a971d747139}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Swing to SWT and Back: Patterns for API Migration by Wrapping}}
+      \field{booktitle}{ICSM}
+      \field{title}{{Swing to SWT and Back: Patterns for API Migration by Wrapping}}
+      \field{userf}{en}
+      \field{year}{2010}
+      \field{pages}{1\bibrangedash 10}
+    \endentry
+    \entry{spatch}{inproceedings}{}
+      \name{labelname}{5}{}{%
+        {{hash=e81b973be16c59dadd9ca59a9172c118}{Andersen}{A\bibinitperiod}{Jesper}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=514259b21ffae8a29b8b401b0a0dd030}{Nguyen}{N\bibinitperiod}{Anh\bibnamedelima Cuong}{A\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+        {{hash=cac8ebdbf2f8a8f2b7f49f6e737c2649}{Lo}{L\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=6be8ed9ad2be0c7967de14d0e8fbb67b}{Lawall}{L\bibinitperiod}{Julia\bibnamedelima L}{J\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{hash=36bf3e16ef63261d739ded28784abbb5}{Khoo}{K\bibinitperiod}{Siau-Cheng}{S\bibinithyphendelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{5}{}{%
+        {{hash=e81b973be16c59dadd9ca59a9172c118}{Andersen}{A\bibinitperiod}{Jesper}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=514259b21ffae8a29b8b401b0a0dd030}{Nguyen}{N\bibinitperiod}{Anh\bibnamedelima Cuong}{A\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+        {{hash=cac8ebdbf2f8a8f2b7f49f6e737c2649}{Lo}{L\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=6be8ed9ad2be0c7967de14d0e8fbb67b}{Lawall}{L\bibinitperiod}{Julia\bibnamedelima L}{J\bibinitperiod\bibinitdelim L\bibinitperiod}{}{}{}{}}%
+        {{hash=36bf3e16ef63261d739ded28784abbb5}{Khoo}{K\bibinitperiod}{Siau-Cheng}{S\bibinithyphendelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{25fd3e6fe7622a85a32e333263ee570d}
+      \strng{fullhash}{8db419a36a0d6c94ce97f1d6ba36f1ae}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Semantic patch inference}}
+      \field{booktitle}{ASE}
+      \field{title}{{Semantic patch inference}}
+      \field{userf}{en}
+      \field{year}{2012}
+      \field{pages}{382\bibrangedash 385}
+    \endentry
+    \entry{test-en}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=a517747c3d12f99244ae598910d979c5}{Author}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=a517747c3d12f99244ae598910d979c5}{Author}{A\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {english}%
+      }
+      \strng{namehash}{a517747c3d12f99244ae598910d979c5}
+      \strng{fullhash}{a517747c3d12f99244ae598910d979c5}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{Title}
+      \field{day}{01}
+      \field{journaltitle}{Journal}
+      \field{month}{04}
+      \field{title}{Title}
+      \field{type}{J}
+      \field{userf}{en}
+      \field{year}{2014}
+    \endentry
+    \entry{test-zh}{article}{}
+      \name{labelname}{1}{}{%
+        {{hash=62cea74981b60712a7cd869a9a021869}{作者}{作\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=62cea74981b60712a7cd869a9a021869}{作者}{作\bibinitperiod}{}{}{}{}{}{}}%
+      }
+      \list{language}{1}{%
+        {chinese}%
+      }
+      \strng{namehash}{62cea74981b60712a7cd869a9a021869}
+      \strng{fullhash}{62cea74981b60712a7cd869a9a021869}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{标题}
+      \field{day}{01}
+      \field{journaltitle}{期刊}
+      \field{month}{04}
+      \field{title}{标题}
+      \field{type}{J}
+      \field{userf}{zh}
+      \field{year}{2014}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

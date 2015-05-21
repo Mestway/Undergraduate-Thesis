@@ -1,0 +1,229 @@
+% vim:ts=4:sw=4
+% Copyright (c) 2014 Casper Ti. Vector
+% Public domain.
+%!TEX root=..//thesis.tex
+
+\chapter{方法概述}
+% 中文测试文字。
+在上一章中，我们提出了变换语言的设计目标。我们将在本章通过几个案例来阐释Patl语言的设计。
+
+\section{Patl的转换框架}
+
+\subsection{表语义与里语义}
+
+为了缩短抽象的转换规则与具体的语言作用效果的鸿沟，我们为Patl赋予了表语义与里语义。其中表语义（也即抽象语义），是为用户提供理解的转换语义，用户在书写规则时可以根据表语义来理解其转换规则在程序中的作用方式。而在表语义之外，Patl还具有里语义（即算法语义），其作用是等效的将表语义所表示的变换最大化的推广到程序的控制流图中，同时将可能违背表语义转换法则的程序部分报给给用户进行手动处理。这样设计的重要原则就是让表语义与里语义能够具有等效性，否则转换程序作用在客户端程序上的时候就会导致违背用户规则意图的效果。当表里语义做到等效作用时，用户就可以在只需最小限度的理解程序的表象效果就能够完成复杂程序上下文中作用的工作。
+
+接下来我们将形式化的描述这个转换框架。
+\begin{definition}[表语义转换]
+给定一个转换程序$\Pi$，以及两个程序$p_1$，$p_2$，如果$p_2$满足：对于$p_1$中所有的被规则$\Pi$匹配的连续程序块，$p_2$中都由规则$\Pi$的映射结果替换，则我们称$p_1$与$p_2$具有表语义转换关系，我们使用符号$p_2={\Pi}\circ(p_1)$来表示。
+\end{definition}
+
+简单来说，表语义就是在引言部分所使用的“块替换”的转换方法：给定一条转换规则$\Pi=()\{-p_1;-p_2;...;-p_n;+q_1;...;+q_n\}$来转换一个程序语句序列$s_1;...;s_n$，表语义所进行的转换即是找到$s_1;...;s_n$中的一段顺序语句$s_{l_1};..;s_{l_u}$，使得这段语句匹配$p_1;...;p_n;$，然后将语句序列替换为$q_1;...;q_n$，从而使得程序中的对应片段得以转换。
+
+\begin{definition}[里语义转换]
+里语义转换定义为根据算法语义（见后文）进行的上下文有关的程序匹配替换，我们用符号$p_2=\Pi\bullet(p_1)$来表示$p_2$是$p_1$在$\Pi$的里语义下的转换结果。（作为简化，我们也常常用$\Pi(p)$来表示里语义转换）
+\end{definition}
+
+给定程序上的一个语义等价关系“$\doteq$”（即$p_1\doteq p_2$意味着$p_1$与$p_2$语义等价），我们使用下图来描述这两个转换的关系。
+
+\begin{equation}\label{eqn:diagram}
+  \xymatrix{
+    q \ar[r]^{\Pi\circ}  & q' \ar@{<->}[d]^{
+    \doteq} \\
+     p \ar[r]_{\Pi\bullet} \ar@{<->}[u]_\doteq       & \Pi(p) }
+\end{equation}
+
+这个交换图表述了里语义与表语义之间的关系：里语义在一个程序$p$上的作用结果等价于表语义在$q$上的作用结果，而其中$q$与$p$是语义等价的两个程序。这个图的交换性就表述了Patl在里语义与表语义的设计目标：里语义与表语义的作用在等价关系$\doteq$的意义下等效（下文将在语言设计的基础上证明该图的交换性以及等价关系$\doteq$的等价性）。
+
+此外这个等效关系也可以通过抽象解释的方式来进行阐释：首先我们将$p$到$\Pi(p)$的流程转化为$p\leftrightarrow q \rightarrow_{\Pi\circ}q'\leftrightarrow \Pi(p)$。那么，对于抽象语义函数$S$，我们持有以下关系：
+
+\begin{displaymath}
+  \xymatrix{
+    p \ar@{<->}[r]^\doteq \ar[d]^S & q \ar[r]^{\Pi\circ}  \ar[d]^S & q' \ar@{<->}[r]^{
+      \doteq} \ar[d]^S & \Pi(p) \ar[d]^S\\
+    S(p) \ar@{<->}[r]^= & S(q) \ar@{<->}[r]^= & S(q') \ar@{<->}[r]^= & S(\Pi(p))}
+\end{displaymath}
+
+这个关系的含义也即是上图中的交换图代表的含义，意味着每一步转换都保持了语义的等效性，（其中的API迁移过程也是在保持语义下的API）从而也表示了变换框架里语义与表语义所应当具有的对应关系。
+
+\section{Patl的转换流程}
+在表述了这两种语义的基本框架后，我们就开始着重介绍里语义的转换案例，通过这样的转换案例的介绍，我们将知道转换程序具体作用在客户端程序上的表现。
+
+在这一个章节中，我们采用如下从SWT到GWT的一个转换案例来解释语言的作用法则。这一个样例展示的是从SWT到GWT的一个表格绘制功能的转换。
+
+两个API在此处需要完成的工作都是创建一个表格，给表格添加一些列，然后在表格的第一列添加一个单元格。
+
+\begin{figure}[ht]
+  {\small (a) Source client code:}
+\begin{lstlisting}[style=java]
+column.setWidth(100);
+TableCell cell1 = new TableCell();
+column.add(cell1);
+TableCell cell2 = new TableCell();
+column.add(cell2);
+\end{lstlisting}
+
+  {\small (b) Target client code:}
+\begin{lstlisting}[style=java]
+GridCell cell1 = new GridCell(100, column);
+GridCell cell2 = new GridCell(100, column);
+\end{lstlisting}
+
+\caption{Client code}
+\label{fig:client}
+\end{figure}
+
+上图中的a)部分表示的是SWT中的规则，SWT会首先创建一个列，为列设置好宽度属性之后创建一个单元格，再将单元格加入到列中。上图的b)部分则表示了GWT的修改方式：不需要将单元格加入到列中，而是把列\code{column}以及宽度\code{100}直接作为参数传入。
+
+给定了这样的对应关系，我们可以定义如下的两条转换规则：
+
+\begin{figure}[ht]
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=patl]
+/*tRow*/ ( col: TableColumn -> GridField,
+       cell: TableCell -> GridCell,
+       w : int -> int) {
+  m col.setWidth(w);
+  - cell = new TableCell();
+  - col.add(cell);
+  + cell = new GridCell(w, col);
+}
+
+/*tSetWidth*/ (col: TableColumn -> GridField,
+           w: int -> int) {
+  - col.setWidth(w);
+}
+\end{lstlisting}
+\end{smpage}
+\end{center}
+\caption{Transformation program}
+\label{fig:transform}
+\end{figure}
+
+这两条转换规则就表述了上述的SWT到GWT程序之间的对应关系。
+
+\subsubsection{表语义转换规则}
+
+根据我们前文的表语义做法，我们就会进行语形以及类型上的匹配来确立需要转换的程序片段，从而进行直接的替换。例如对于\figref{fig:client}中的例子，我们就会通过语形以及类型的匹配让这些规则与用户语句产生绑定，然后根据语句的绑定关系进行代码生成。
+
+具体在\figref{fig:client}中，其中\code{tSetWidth}这一条规则就会使得其中的语句序列与设置宽度的语句产生绑定，而\code{tRow}这条语句能够让添加单元格的语句进行匹配。匹配完成后就会产生元变量与Java变量之间的绑定关系，然后在进行元变量的替换来产生需要生成的语句，从而替换已经被匹配的连续块。
+
+\subsubsection{里语义的转换规则}
+如上文所说（对应引言部分的转换方式），里语义还会在转换过程中引入一系列等价变换来确保表语义足以表达更复杂环境下的转换方式。我们使用下述的例子来解释我们的里语义作用方式。
+
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=java]
+TableColumn column = columnList.get(0);
+column.setWidth(100);
+if (toLeft) {
+  column.add(new TableCell());
+} 
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+我们观察这个例子，与前文不同的是，这个例子中的一个分支语句\code{if(..)\{...\}}把 \code{column} 的 \code{setWidth} 以及 \code{add()} 方法出现在了不同的block中。因此我们在转换时需要考虑到不同block之间的影响。这个例子的转换可以分为以下步骤：
+
+\begin{enumerate}
+\item 预处理：在这个阶段，源代码之中的语句将会被转换为三地址风格的语句。这样的处理可以让源程序与其控制流图具有直接的对应关系。在这个例子中，第四行代码将会分裂为两端代码，包括创建单元格以及设置单元格，转换结果如下：
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=java]
+TableColumn column;
+column = columnList.get(0);
+column.setWidth(100);
+if (toLeft) {
+  Cell cell;
+  cell = new TableCell();
+  column.add(cell);
+} 
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+\item 匹配：在匹配阶段，所有符合匹配模式的语句序列都会进行匹配。此处的语句序列需要满足的关系是这些语句在执行时满足序列关系的语句。意即：当一组语句将会在实际执行阶段满足前后关系，并且这一组语句能够与语句模式进行匹配，那这一组执行语句对应的程序语句就将会与模式产生绑定。在这个例子中，会产生两组绑定：\code{tRow}与3,6,7三行产生绑定，而\code{tSetWidth}与第3行的代码产生绑定。（这样的绑定是根据控制流图上执行序列关系进行的绑定，具体做法可以参见下文。）
+\item 基于绑定的等价移动：在等价移动的阶段，我们会将可能呈现数据流序列中的匹配语句移动到同一个block中，同时保持其他的分支语句执行序列关系不变。在考虑依赖关系的条件下，这个操作的结果要做到匹配到的语句都出现在同一个基本块中，同时整个程序的语义完全等价于原有的程序。由于我们在上一步骤（匹配步骤）产生的语句出现在了不同的基本块中（\code{tRow}绑定的语句中 \code{column.setWidth(100);} 出现在了第一个block中，而6,7行的两个语句出现在了分支语句的第一个分支块中）。
+
+因此，根据之前的绑定关系，我们将上图中的 \code{column.setWidth(100);} 移动到分支语句的第一个分支中，但如果仅仅将这条语句放入分支中，该程序的语义就与原有的程序产生了不同，因而我们在移动的同时还会创建一个 \code{else} 分支，从而保持语义的等价性。
+
+在这个样例中最后的移动结果如图所示：（\code{column.setWidth(100);} 被复制到了分支语句的两个分支中，上一步匹配到的三条语句都同时出现在了\code{if}分支中）。
+
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=java]
+TableColumn column;
+column = columnList.get(0);
+if (toLeft) {
+  column.setWidth(100);
+  Cell cell;
+  cell = new TableCell();
+  column.add(cell);
+} else {
+  column.setWidth(100);
+}
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+\item 程序修改：在进行移动之后，那些被绑定的语句就可以通过表语义类似的修改方式来进行修改。在修改之中，我们将那些被“-”标注语句模式匹配的语句块替换为由“+”所标记模式生成的语句。由于被“-”标注语句匹配到的语句常常并不连续，我们将在这些删除语句中寻找一个合适的生成点来生成这个语句。（当这个生成点无法寻出时，我们就会产生一个warning来提示用户，让用户手动进行修改。）
+
+在这个例子中，我们会将第5行的语句删除（这一个语句与\code{tSetWidth}规则中的删除语句模式产生了绑定），并将第4,6,7行的语句删除（同理，这三句话与\code{tRow}产生了绑定，因此对应的模式将会在对应的位置生成：\code{cell=new~GridCell(100,column);}将会在第6行的位置生成，其他的删除语句将会进行删除。）
+
+进行程序修改之后的样例如下图所示：
+
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=java]
+TableColumn column;
+column = columnList.get(0);
+if (toLeft) {
+  Cell cell;
+  cell = new GridCell(100, column);
+} else {
+  column.setWidth(100);
+}
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+进行了这样的修改之后我们就成功的根据了匹配绑定的语句完成了程序中的语句删除与生成，至此，API的变换操作就已经完成。接下来的步骤则是用于还原最初正则化程序操作的后处理工作了。
+
+\item 后处理：完成了程序的改写工作之后，我们就需要通过后处理工作来对之前normalization造成的基本修改进行一定程度的还原，将三地址风格的Java程序变换为普通风格的Java程序。这一步进行的主要操作就是将引入的可销毁变量通过inlining的方式进行销毁，这样就可以保证程序的风格最大限度的接近原有的程序风格。
+
+在这个例子中，我们在normalzition这一步中创建了一个\code{cell}变量，我们在这里就将\code{cell}变量的定义与其创建方法合并。
+
+\begin{center}
+\begin{smpage}{0.6\columnwidth}
+\begin{lstlisting}[style=java]
+TableColumn column;
+column = columnList.get(0);
+if (toLeft) {
+  Cell cell = new GridCell(100, column);
+} else {
+  column.setWidth(100);
+}
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+进行完后处理操作之后，我们的程序转换结果就呈现出了如上图的效果：原有的SWT的构造方法被GWT的构造方法替换，同时较大限度的保持了原有的程序风格。
+\end{enumerate}
+
+这样从源到源的代码转换就产生了如图的所需转换结果，这也即是里语义的作用方式。
+
+\section{表里语义之间的关系}
+我们在这一章第一节讲述了表里语义之间应当具有的等价关系，在这一节，我们将具体阐述语言Patl的表里语义之间的等效关系。同样的，我们在这里简单的阐述两者的等效性，其证明将在后文介绍完语言形式化定义之后进行更加具体的证明。
+
+事实上，一个转换规则$\Pi$的里语义可以分解成为三个部分，即$\Pi\bullet=\beta\cdot\Pi\circ\cdot\alpha$，其中$\beta$与$\alpha$为两个等价变化，使得$\beta(p)\doteq p$以及$\alpha(p)\doteq p$。其中的$\Pi\circ$表示的是其表语义。
+
+在这里，我们将里语义的作用分解为两个等价变换与表语义的复合，此处的等价变换就起到了连接表里语义的关键步骤：让表语义作用在一个等效的程序上，从而API迁移这一修改动作保持了用户所理解的操作：在这里，我们将等价变换操作定义为以下\textit{基本等价变换}操作的复合：
+\begin{itemize}
+\item 正规化：将程序的语句转换为三地址代码形式。
+\item 重命名：当两个变量u,v在位置l，互为别名(Alias)关系时，在位置l时将变量u重命名为v。
+\item 移动：当一个语句s与分支语句条件不产生依赖关系时将其复制进入分支语句之中。
+\item 交换：当两条相邻的语句$s_1,s_2$不产生依赖关系时，将这两条语句的位置进行交换。
+\end{itemize}
+
+有了这样的一些基本等价操作，我们就保证了里语义的作用是等价变换与表语义作用的符合，从而保证里语义（实际的算法语义）作用在一段程序$p$上时能够保持语义

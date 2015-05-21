@@ -1,0 +1,17 @@
+% vim:ts=4:sw=4
+%!TEX root=../thesis.tex
+% Copyright (c) 2014 Casper Ti. Vector
+% Public domain.
+
+\begin{cabstract}
+	现代软件的开发离不开对于API的依赖，API的版本升级问题，以及对于API需求变化带来的API迁移问题就成为了软件维护的一个重要问题。在大规模的软件开发过程中，手动维护会极大的增加软件的维护成本，同时较高的错误率也导致了其他维护问题的产生。因此，能够快速的开发一个能够保证程序变换正确性的自动化工具就成为了软件维护者的梦想。
+
+	然而，API之间复杂的映射，尤其是多对多的API调用映射关系，让自动转换工具的开发变得尤为困难。本文设计了一种领域特定语言(Domain Specific Language)来解决因API问题而进行程序改写的问题，通过语言机制来保证了API迁移过程中的程序变换的正确性，同时提供了用户友好的映射规则定义接口。本文定义了该程序变换语言的表里语义：表语义为用户书写转换规则过程中对于API规则的理解，而里语义则是转换规则在程序变换过程中的作用法则，并通过程序分析的手段来自动分析API转换规则在用户程序中的依赖关系，让程序的表里语义能够在实际转换过程中起到等同的作用，以此来保证变换过程在符合语言使用者理解的条件下自动推广到复杂的显示情况中。
+\end{cabstract}
+
+\begin{eabstract}
+	Modern software development can not progress without the use of APIs, and this makes incompatible API update or API switching become an important but tough task for software maintainers. It is not feasible for programmers to manually update the programs with the old versions of APIs to the ones with new APIs, as the cost is high while errors are likely to appear after manual upgrade, which even increases the cost of software maintenance. Thus it is desirable to have automatic program transformation tools to support the program transformation process that can maintaining the safety of the transformation process.
+
+	However, adapting programs between APIs is still not a easy task with existing program transformation systems, due to the complex mappings between the old and the new APIs. We designed a domain specific language PATL to solve the problem by providing safe checks in the language semantics with user-friendly interface. In the language design, we provide an external semantics, which enables users to understand the rules they write easily,as well as an internal semantics for the actual transformation of user programs that can handle complex program transformation cases. The magic between the two semantics is the design of an analysis system which support semantic-preserving program rewriting before adaptation, which actually achieves the goals to enable users to transform complex programs with their simple rules written with the understanding of the external semantics.
+\end{eabstract}
+
