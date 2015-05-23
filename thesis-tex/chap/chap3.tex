@@ -1,0 +1,126 @@
+%!TEX root=..//thesis.tex
+
+\chapter{表语义(Abstract Semantics)}
+
+在这一章中，我们将形式化的定义表语义，即前文所提的块内序列转转换语义，也即用户在书写转换规则过程中使用的转换语义。
+
+我们对表语义的描述会在MJ程序p上进行，但是，由于这个转换会从程序p的语义上升格到对于p的程序体上的作用（也即p的内的语句序列），我们在接下来的描述就使用程序在语句序列上作用作为描述：转换过程是一个转换程序$\Pi$作用在一个方法$M$上，方法$M$中的变量都在变量环境$\Gamma$中。（在MJ中，由于变量定义都出现在程序的最上层，变量环境在程序的语句序列中并不会发生变化，所以我们都采用程序的变量上下文$\Gamma$来表示这个环境。）
+
+在我们正式讲解表语义之前，我们先集中阐释一下我们所需要使用到的一些属于来避免在后文理解中的疑惑或误解。
+
+\newcommand{\typefunc}{\mathsf{type}}
+\newcommand{\Path}{\mathsf{Path}}
+\newcommand{\Loc}{\mathsf{Loc}}
+\newcommand{\CC}{\mathtt{C}}
+\newcommand{\loc}{\iota}
+
+\begin{itemize}
+\item \textit{位置}：在程序中，我们为每一个语形单位都赋予了一个位置变量，来表示这个语形单位在程序中的位置，同时也用作识别程序的方式。在这里我们将所有的位置集合定义为$L$。我们使用$\mathsf{obj}(\iota)$来引用处在位置$\iota$处的语形单位。
+
+例如，给定这样的一个语句（其中的位置用上标表示在每一个语形单位处）：$(b^{\iota_3} = (a^{\iota_1}:m())^{\iota_2}))^{\iota_4}$，我们就可以使用$\mathsf{obj}(\iota_2)$来引用变量$a.m()$。
+
+\item \textit{替换操作}：我么使用符号 $p\backslash [s_1\mapsto t_1, \ldots, s_n\mapsto t_n]$ 来表示对$p$中的变量替换。在这个替换中，如果$s_i$是一个位置，我们就用来表示把$s_i$位置处的语形单元替换为$t_i$。如果$s_i$代表的是一个语形单元，那这个替换就指定为在$s_i$所处的位置，将$s_i$替换为$t_i$。
+
+\item \textit{路径}：我们使用集合$\Path(p) \subseteq \Loc^*$ 来表示所有可能的流程p间可能的程序执行路径，其中这样的一条路径是一个序列的位置的集合。
+
+\item \textit{类型}：我们使用符号$\typefunc(v)$来表示变量$v$在其方法内的类型，当$v$没有被定义时，$\typefunc(v)=\bot$。正如我们前文所言，我们将此处的说明放在一个程序的方法体内，因此类型不会产生变化，所以对于每一个变量的引用我们都可以正确的进行使用。
+
+除了引用程序中的变量以外，我们同时还用这个符号来引用Patl中变量的源类型。例如：$x:\mathtt{C}_1\hookrightarrow\mathtt{C}_2\Rightarrow \typefunc(x)=\mathtt{C}_1$。
+
+\end{itemize}
+
+在定义语句的匹配之前，我们首先定义语句与模板之间的匹配关系。
+
+\begin{definition}[语句匹配]
+给定一条转换规则$\pi$, 以及一段程序语句序列 $\bar{s}$, 一个\emph{程序与规则的匹配}是一个三元组 $(p, \sigma, \loc)$, 其中 $p$ 是 $\pi$ 中的一个语句模式,  $\sigma$ 是一个映射, 将 $\pi$中的元变量映射到$\bar{s}$ 中的程序变量, 并且 $\loc$ 是 $\bar{s}$中的一个位置, 这些变量需要满足以下两个条件： 
+
+\begin{enumerate}
+\item \emph{语形匹配.} $p\backslash \sigma = s$.
+\item \emph{类型匹配.} 对于任何$p$中的变量$x$, 
+  $\typefunc(\sigma(x))$ 应当是 $\typefunc(x)$ 的一个子类， 如果 $x$ 在 $p$ 中作为右值出现, 并且当$x$在$p$中作为左值出现时， $\typefunc(x)$ 应当是类型 $\typefunc(\sigma(x))$ 的子类。
+\end{enumerate}
+\end{definition}
+
+在有了语句的匹配之后，我们很自然的就可以把语句匹配推广到语句序列上的匹配操作:
+
+\begin{definition}[语句序列匹配]
+一个三元组 $(\overline{p}, \sigma, \bar{\loc})$ 在满足以下两个条件的情况下是一个语句序列的匹配：
+\begin{enumerate}
+\item $|\overline{p}|=|\bar{\loc}|$
+\item $(p_i, \sigma,
+    \loc_i)$ 对于所有的下标 $i<|\overline{p}|$ 都满足前文所说的语句匹配关系。
+\end{enumerate}
+\end{definition}
+
+以上的两条定义都是我们定义在程序的基本模式上的，接下来我们就可以更具这些模式上定义的匹配拓展到规则与用户程序之间的匹配关系，定义如下。
+
+
+\begin{definition}[规则匹配] 
+一个规则匹配是定义在一个语句序列 $\bar{s}$ 以及一条转换规则 $\pi$ 上的三元组 $(\pi, \sigma, \bar{\loc})$, 其中 $\pi$ 满足如下的形式
+$(\bar{x}:\overline{\CC_1\hookrightarrow\CC_2})\{I^{m};I^{-};I^{+};\}$。其中的
+$\sigma$ 是一个元变量的映射, 以及 $\bar{\loc}=(\loc_i, \ldots, \loc_n)$ 是 $\bar{s}$ 中语句的位置集合。以上这些要素需要满足以下这些关系:
+\begin{itemize}
+\item \emph{源匹配.} $(I^-, \sigma, \bar{\loc})$ 形成一个语句序列的匹配关系。
+\item \emph{上下文匹配.} 对于任意 $\bar{\loc}_p \in \Path(p)$
+  中一条可执行路径 $\bar{\loc}$, 都存在一个子序列 $\bar{\loc}_q$
+  出现在 $\bar{\loc}$ 之前, 使得 $(I^m, \sigma, \bar{\loc})$ 在给定任意的元变量 $x$ in $I^m$ 满足 $\sigma(x)$ 在 $\bar{\loc}$之前都没有被写操作覆盖的情况下形成一个语句序列匹配。 
+\item \emph{独立.} 对于任意两个元变量 $x_1$ 与 $x_2$, 应当满足条件 $x_1\neq x_2 \Rightarrow
+  \sigma(x_1) \neq \sigma(x_2)$.
+\item \emph{新变量.} 对于任意只出现在 $I^+$ 并且不出现在 $I^m$ or $I^-$ 中的元变量 $x$, $\sigma(x)$ 是与程序中任意元变量都不同的变量。
+\end{itemize}
+\end{definition}
+
+上述定义的规则与程序之间的匹配关系可以根据如下的方式来进行理解：第一条规则定义了语句之间需要转换的程序部分。第二个条件要求了在需要匹配删除的程序语句之前需要有上下文能够与模板中的程序上下文相匹配，从而产生合理的上下文来确立转换位置，此外，由于我们要求被转换语句在任何执行情况下都满足这样的上下文匹配关系，我们就要求对于所有的执行路径都满足这个条件，从而让程序转换得以满足，因此我们在定义匹配时加上了对于所有路径的要求。第三个条件表示的则是不同的元变量都应该匹配到不同的转换对象，保证在转换中不会产生变量覆盖的情况。我们给出以下简单的例子来说明这个条件的实际效果：
+
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=patl,frame=none]
+//Transformation rule
+(a:X->X, b:Y->Y) {
+  - a = A.m();
+  - b = A.n();
+  + b = A.n1();
+  + a = A.m1(); 
+}
+//Java program
+i = A.m();
+i = A.n();
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+在上面的这个例子中，用户希望的是把原有的 \code{A.n()} 用 \code{A.n1()} 替换，并将 \code{A.m();} 用 \code{A.m1();} 替换。但是如果没有第三个限制条件，产生匹配转换之后，由于Java程序之中的转换体都是对i的赋值，就会由于覆盖之后i的含义遭到破坏。因此我们增加这个限制就可以避免这个情况的发生：转换者意图转换的是不同的变量，而用户使用了相同的变量，这个情况当然就不应该进行匹配了。
+
+此外，我们还应该保证在匹配进行之后，如果有一条语句匹配到了不同的语句上，我们就要保证这一条语句只匹配到一个删除模板，否则我们怎么理解一条语句被删除多次呢？因此尽管我们允许一条语句被多个环境模板匹配，我们只允许他最多匹配一个删除语句模板。
+
+最后，有了这些单个规则的匹配，我们就可以定义匹配集合以及表语义的转换了。
+
+\begin{definition}[匹配集合]
+  一个建立在语句序列$\bar{s}$以及转换规则集合$\Pi$上的集合 $S$ 被称为一个匹配集合如果他满足以下两个条件：
+\begin{enumerate}
+\item 对于任何$S$中的匹配$(\pi, \sigma, \bar{\loc}) \in S$ ，满足$\pi \in \Pi$
+  
+\item 对于任何 $\bar{s}$中的位置$\iota$ , 一个删除$I^-$中的模板$p$至多匹配到一个位置$\iota$.
+\end{enumerate}
+\end{definition}
+
+
+\begin{definition}[表语义转换]
+  给定一段源程序语句序列 $\bar{s}$ 以及一个目标程序语句许略 $\bar{s}'$，我们定义目标序列为源序列在规则$\Pi$下的一个转换
+  （我们标记为$\Pi^\circ(\bar{s}, \bar{s}')$）, 当且仅当存在转换程序$e$和转换规则集合$\Pi$之上的一个匹配集合$S$ 满足关系 $\bar{s}'=\bar{s}\backslash \tau$，并且其中 $\tau$ 是满足一下关系的最小集合：
+\begin{center}\small
+\AXC{$(\pi, \sigma, \bar{\iota}) \in S$~~~~$\pi = (\ldots)\{I^{m};I^{-};I^{+};\}$}
+\UIC{$[\bar{\iota} \mapsto I^+\backslash \sigma] \in \tau$}
+\DP
+\end{center}
+\begin{center}\footnotesize
+  \AXC{$(x_1:\CC_1\hookrightarrow\CC_1', \ldots, x_n:\CC_n\hookrightarrow\CC_n')\{I\}
+    \in \Pi$}
+  \UIC{$[\CC_1\mapsto \CC_1']\in \tau, \ldots, [\CC_n\mapsto \CC_n'] \in \tau$}
+  \DP
+\end{center}
+\end{definition}
+
+至此，我们就完成了表语义的转换定义：表语以转换就是定义在转换语言上的同义语形匹配与替换，其中的替换操作源于对添加模板之中的元变量替换产生。
+
+此处的程序变换仅涉及匹配与替换，并不涉及程序结构的移动与修改，我们就在接下来的章节中进行算法语义的描述。

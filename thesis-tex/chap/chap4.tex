@@ -1,0 +1,584 @@
+%!TEX root=..//thesis.tex
+
+\newcommand{\pr}[1]{\langle{#1}\rangle}
+
+\chapter{里语义(Algorithmic Semantics)}
+
+现在我们将正式的进行里语义的形式化定义，正如我们在第二章的描述，里语义是表语以在控制流结构下增加了对程序结构修改的语义。
+
+同样的我们在介绍里语义之前先将里语义中所采用的符号列举如下，来避免后面阅读时的困难。
+
+\begin{itemize}
+\item MJ 类型环境 $\Gamma$.
+
+\item Patl 类型环境 $\Psi$, 其中的元素形如 $x:\CC_1\hookrightarrow\CC_2$， 表示了元变量$x$ 在源环境中是类型 $\CC_1$ 而在新环境中类型为 $\CC_2$。
+
+\item 别名关系集合$\Omega$, 其描述了程序之中的所有可能存在的别名关系。里面的元素包含以下两种类型： 1) \textit{must aliases}关系 $[v_1^{\iota_1},v_2^{\iota_2}]\in\Omega$ 以及 2) \textit{may alias} $\pr{v_1^{\iota_1},v_2^{\iota_2}}\in\Omega$.
+
+\item 依赖关系集合 $\Sigma$, 这个集合中同时包含了变量之间的依赖关系以及语句之间的依赖关系: $(v_1^{\iota_1},v_2^{\iota_2})$ 表示了变量 $v_1^{\iota_1}$ 依赖于变量 $v_2^{\iota_2}$, 而 $(l_1,l_2)$ 表示了具有标号 $l_1$ 的语句依赖于具有标号 $l_2$的语句.
+
+\item 转换法则 $\Theta$集合。每一个出现在 $\Theta$ 中的转换元素包含了一个匹配者 $\hat\pi$, 以及一列转换语句的标签 $l_1,...,l_n$, 标明了标记为 $l_1,...,l_n$ 的语句将会被移动转换, 由于他们被匹配者 $\hat\pi$所标记。(更多关于这个集合的东西将会在使用的位置进行阐述。)
+\end{itemize}
+
+接下来，我们就开始进行里语义算法流程的介绍。
+
+\section{里语义算法流程}
+
+在接下来的介绍中，我们采用类似于表语义中的介绍方式，介绍里语义作用在一个方法体内的规则（转换规则会将具体过程推进到方法体内，因此其等价于对于Java程序的介绍）。
+
+此外，我们的里语义对于上下文的依赖也定义在了一个方法之内，由于方法之间的转换存在不一致性，（而且根据API的使用规则，具有时序关系调用的API集合也会出现在一个方法内，否则在升级过程中不会产生合并替换这样的操作），因此任何时候我们检查到API之间的调用超越了方法边界时，我们都会产生一个警告给用户，来提示已经发现的错误。
+
+正如前文所述，我们的转换过程可以分为以下几个步骤：
+
+\begin{enumerate}
+\item 分析：我们在第一阶段，会对即将转换的方法快进行程序分析，来获取其中的以来关系以及别名关系，从而在具体转换实现时进行辅助来保证依赖关系的正确保持。
+\item 匹配：其中的第二步转换为匹配操作。在这一个步骤中Patl程序$\Pi$会与用户语句序列产生绑定，将其中的语句与模板进行绑定，同时产生元变量与变量之间的绑定关系。这一步匹配的结果就是会产生一个匹配者，用来指导后文的转换工作。
+\item 移动：这一步又可以称作基于匹配者的移动操作，这个移动操作是用来帮助改变程序的块结构从而产生顺序修改条件程序的必要步骤。移动操作中我们需要使用匹配者（又称绑定者）来描述移动之间的关系，同时采用依赖集合来进行移动的指导。这一步操作是一个语义等价操作，可以用来保证变换前后的程序完全语义等价。
+\item 修改：最后一步的修改操作则是类似于表语义之中的修改替换操作。这一步修改与替换操作进行的即是API的替换操作。这一步修改操作会读取匹配者之间的绑定信息，通过实例化操作将元变量实例化，从而产生新的API对应关系。
+\end{enumerate}
+
+在进行了上述的这些转换步骤之后我们就能够成功的在语句层次上将程序变换为具有新API调用的程序了。如果在转换过程中出现了警告，我们就会将由于用户用户程序书写不当造成的错误报告给用户，让用户经过修改之后再次进行变换。
+
+\flyingbox{$\Pi(M)=M'$}
+\begin{center}
+\AXC{
+	\stackanchor
+	{$\mathsf{depAnalysis}(\bar{s})=\Sigma_d$~~~~$\mathsf{aliasAnalysis}(\bar{s})=\Omega$~~~~$\{\bar{x}:\bar{\CC}\}\vdash_{\Omega} \mathsf{Match}(\Pi,s)=\hat{\Pi}$}
+	{$\mathsf{MatchedSeqs}(\hat\Pi)=\Theta$~~~~$\vdash^{\Theta}_{\Sigma_d\cup\mathsf{matchDep}(\Theta)}\bar{s}\leadsto_{shift} \bar{s}'$~~~~$\mathsf{adapt}(\hat\Pi,\bar{s}')=\bar{s}''$}
+}
+\UIC{$\Pi(\CC_1~m(\bar{\CC}~\bar{x})\{\bar{s};\mathtt{return}~z;\})= \Pi(\CC_1)~m(\overline{\Pi(\CC)}~\bar{x})\{\bar{s}'';\mathtt{return}~z;\}$}
+\DP
+\end{center}
+
+上述的转换流程可以概述为如上图所示。
+
+\paragraph{类型的转换} 在语句层次的变化之外，我们还需要进行类型上的变化来保证转换的完整性。类型层次上的操作是从变换规则中提取类型映射条件，用来添加到类型的映射之中，其间Patl系统会分析类型之间的函数映射条件以及子类关系是否满足，用以解决用户程序之间的实际类型问题。
+
+在接下来的几个章节中，我们将分步骤的介绍Patl的转换流程，通过形式化的方式来描述转换过程。
+
+\section{分析}
+我们首先进行的介绍是程序的分析，给定一个用户程序$p$用来作为转换源时，我们首先通过分析来给出一个对于程序之中依赖以及别名关系的分析结果用在后面的匹配操作中。
+
+\paragraph{别名分析} 我们首先会通过一个函数$\mathsf{aliasAnalysis}(\bar{s})=\Omega$来进行别名的分析，在这个分析中我们要求分析记过是完整的：给定了两个变量以及他们的位置，我们要求 1)
+$[v_1^{\iota_1},v_2^{\iota_2}]\in\Omega\Rightarrow v_1^{\iota_1}$ 可以推导出
+$v_2^{\iota_2}$ 他们是必然别名关系, 2)
+$\pr{v_1^{\iota_1},v_2^{\iota_2}}\in\Omega\Rightarrow v_1^{\iota_1}$
+与 $v_2^{\iota_2}$ 是可能别名关系, 以及 3) 他们之间没有别名关系。
+
+在这样的分析下，我们才能够保证在程序匹配中每一次查询都能查询到合理的对应结果用来指导程序的匹配操作。
+
+\paragraph{依赖关系分析}
+同样的，我们要求语句之间的依赖关系也具有完整性。保证了分析的结果是可确定的：1) 给定两个语句 $s_1$ 标签为 $l_1$ 与 $s_2$ 标签为 $l_2$, 我们要求 $(l_1, l_2)\in\Sigma_d$, $s_1$ 与 $s_2$ 也许会有依赖关系，否则他们 \emph{必然没有} 依赖关系。 2) 给定两个变量 $v_1^{\iota_1}$ 以及 $v_2^{\iota_2}$, $(v_1^{\iota_1},v_2^{\iota_2})\in\Sigma_d$ 意味着 $v_1^{\iota_1}$ 也许依赖于 $v_2^{\iota_2}$， 否则$v_1^{\iota_1}$ \emph{一定不} 依赖于 $v_2^{\iota_2}$。
+
+同时应当注意的是，我们在程序中使用的依赖关系分析是更加保守的依赖关系分析，我们要求所有无法确定的程序分析部分都被标注为具有依赖关系，从而保证依赖关系的不完整不会损害转换与匹配的过程。
+
+\section{匹配}
+
+有了程序分析的结果之后，我们就可以开始使用数据流分析的匹配框架来进行程序中的控制流图上的匹配操作。匹配操作的目标是要将所有可能存在执行路径上的转换对象寻找出来，用于等价变换之后进行查找和替换。给定了一个Patl程序$\Pi$以及一列语句序列$\bar{s}$，我们希望找到$\bar{s}$中的一列子语句序列，是的这个子语句序列与$\Pi$中的一些规则匹配绑定，并且要求这些子语句序列必定存在与一个执行序列之中。
+
+\subsection{匹配者}
+
+在匹配过程中，我们采用了“匹配者”结构来满足语句之间匹配的需求（定义如下图所示\figref{fig:matcher}），匹配者结构是用来存储绑定匹配信息结构，在匹配个过程中随着匹配点的移动而更新，不断的增加绑定直至产生一组完整的匹配绑定序列。
+
+\begin{figure}[ht]
+\[
+\begin{array}{rcll}
+	\hat\Pi &::=&\big\{\hat\pi_1,...,\hat\pi_n\big\} &\text{(Matcher set)}\\
+	\hat\pi &::=& [\pi](\bar{x}:\bar{S})\{\bar{p}:\bar{l}\} &\text{(Matcher)}\\
+	S 		&::=& \big\{v_1^{\iota_1},...,v_n^{\iota_n}\big\}  	& \text{(Bound Value Set)}\\
+\end{array}
+\]
+\caption{匹配者的定义, 其中的 $x$ 表示 PATL 元变量, $p$ 表示语句模式, $l$ 表示语句标签， $v^{\iota}$ 用来表示变量在位置$\iota$位置的实例}
+\label{fig:matcher}
+\end{figure}
+
+此处的匹配者在定义中表示了元变量与变量实例集合的绑定关系，匹配者体中包含了语句与模式之间的绑定关系。
+
+\subsection{数据流上的程序匹配操作}
+
+由于我们的程序匹配是与程序的实际执行有一定的对应关系，我们就通过数据流上的匹配来减少实际执行与源代码之间的鸿沟。这个数据流分析的框架如下图所示。
+
+
+\begin{figure}[t]
+\[
+	\begin{array}{lll}
+		\mathit{init} = \left\{[\pi_1]()\{\},...,[\pi_n]()\{\}\right\}\\
+		\mathit{out}[s] = \bigcup_{\hat\pi\in \mathit{in}[s]}\mathsf{match}(\hat\pi,s)\\
+		\mathit{in}[s] = \bigcup_{s'\in \mathit{pred}(s)} ~\mathit{out}[s']\\
+		\mathit{exit} = \mathsf{clear}(\mathit{in}[s])
+	\end{array}
+\]
+\caption{匹配环节的数据流分析框架}
+\label{fig:dfa}
+\end{figure}
+
+在这一个数据流的分析框架中，我们在初始点首先创建了一个空的匹配者集合（使用转换规则进行创建），接下来就在遍历每一个转换节点上进行更新操作，想所有可能的匹配者添加可能的绑定语句，从而进行匹配者的更新，用来满足匹配者完全匹配的要求。
+
+\paragraph{转移函数}
+在数据流分析框架中，最重要的转移函数部分就进行了匹配添加的过程，一方面会对所有的匹配者进行尝试更新操作，我们会对所有产生绑定的匹配者进行更新，并将其加入到下一个匹配者集合中，用在下一个节点处进行更新。
+
+值得注意的是我们为了避免回溯匹配的需要，我们采用的是类似于DFA的扩展匹配方式，每一步更新都会同时保留更新前后的状态。但是由于每一个匹配者的语句数量都是小的常数，这个变化就不会产生过高的复杂度。
+
+我们就将转移函数的形式化定义放置如下。
+
+\newcommand{\context}{\Gamma}
+
+\flyingbox{$\Gamma\vdash_{\Omega}\mathsf{match}(\hat\pi,s) = \hat{\Pi}$}
+
+\begin{center}
+\AXC{$\mathsf{matchpoint}(\hat\pi)=p_1$~~~~$\exists\hat\pi'=[\pi](\bar{x}':\bar{S}')(\bar{p}':\bar{l}')\in in[s].(p_1:\mathsf{label}(s)\in \bar{p}':\bar{l}')$}
+\UIC{$\context\vdash_{\Omega} \mathsf{match}(\hat\pi::[\pi](\bar{x}:\bar{S})\{\bar{\beta}\},s)= \Big\{[\pi](\bar{x}:\bar{S})\{\bar{\beta}\}\Big\}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	\stackanchor
+	{$\mathsf{matchpoint}(\hat\pi)=p_1$~~~~$\mathsf{decl}(\pi);\Gamma\vdash\mathsf{varmatch}(p_1,s)=\bar{x}':\overline{v'^{\iota'}}$}
+	{
+		\stackanchor
+		{$\forall~x_1:v_1^{\iota_1}\in\bar{x}':\overline{v'^{\iota'}}.(\exists x_1:S_1\in\bar{x}:\bar{S}.(S_1=\emptyset \lor \forall v_2^{\iota_2}\in S.([v_1^{\iota_1},v_2^{\iota_2}]\in \Omega)))$}
+		{$\mathsf{insert}(\bar{x}':\overline{v'^{\iota'}}, \bar{x}:\bar{S})= \bar{x}:\bar{S}'$}
+	}
+}
+\UIC{$\context\vdash_{\Omega} \mathsf{match}(\hat\pi::[\pi](\bar{x}:\bar{S})\{\bar{\beta}\},s) = \Big\{[\pi](\bar{x}:\bar{S}')\{\bar{\beta},~p_1:\mathsf{label}(s)\}, [\pi](\bar{x}:\bar{S})\{\bar{\beta}\}\Big\}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	\stackanchor
+	{\stackanchor
+		{$\mathsf{matchpoint}(\hat\pi)=p_1$~~~~$\mathsf{decl}(\pi);\Gamma\vdash\mathsf{varmatch}(p_1,s)=\bar{x}':\overline{v'^{\iota'}}$}
+		{$\forall~x_1:v_1^{\iota_1}\in\bar{x}':\overline{v'^{\iota'}}.(\exists x_1:S_1\in\bar{x}:\bar{S}.(S_1=\emptyset \lor \forall v_2^{\iota_2}\in S.([v_1^{\iota_1},v_2^{\iota_2}] \lor \pr{v_1^{\iota_1},v_2^{\iota_2}}\in \Omega)))$}
+	}
+	{
+		\stackanchor
+		{$U = \big\{(x_1,v_1^{\iota_1})~|~ x_1:v_1^{\iota_1}\in\bar{x}':\overline{v'^{\iota'}}\land \exists~x_1:S_{1}\in\bar{x}:\bar{S}.( \exists v_2^{\iota_2}\in S_1.(\pr{v_1^{\iota_1},v_2^{\iota_2}}\in\Omega))\big\}\neq\emptyset$}
+		{$\mathsf{insert}(\bar{x}':\overline{v'^{\iota'}}, \bar{x}:\bar{S})= \bar{x}:\bar{S}'$}
+	}
+}
+\UIC{$\context\vdash_{\Omega} \mathsf{match}(\hat\pi::[\pi](\bar{x}:\bar{S})\{\bar{\beta}\},s) = \Big\{[\pi](\bar{x}:\bar{S}')\{\bar{\beta},~*p_1:\mathsf{label}(s)~[U]\},[\pi](\bar{x}:\bar{S})\{\bar{\beta}\}\Big\}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{\text{otherwise}}
+\UIC{$\context\vdash_{\Omega} \mathsf{match}(\hat\pi::[\pi](\bar{x}:\bar{S})\{\bar{\beta}\},s)= \Big\{[\pi](\bar{x}:\bar{S})\{\bar{\beta}\}\Big\}$}
+\DP
+\end{center}
+
+\flyingbox{$\Psi;\Gamma\vdash\mathsf{varmatch}(p,s)= \big\{\bar{x}:\bar{v}\big\}$}
+
+\begin{center}
+\AXC{{$\Psi;\Gamma\vdash \mathsf{lhsvarmatch}(x;z)=\big\{x:z\big\}$~~~~$\Psi;\Gamma\vdash \mathsf{varmatch}(r;e)=\big\{\bar{y}:\bar{v}\big\}$}}
+\UIC{$\Psi;\Gamma\vdash \mathsf{varmatch}(x = r; z = e)= \big\{x:z,\bar{y}:\bar{v}\big\}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{$\Psi\vdash x:\CC_1\hookrightarrow\CC'_1$~~~~$\Gamma\vdash x_1:\CC_2$~~~~$\CC_2<:\CC_1$}
+\UIC{$\Psi;\Gamma\vdash\mathsf{varmatch}(x,x_1)=\big\{x:x_1\big\}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	{$\Psi\vdash \bar{x}:\overline{\CC_1\hookrightarrow\CC'_1}$ ~~~~ $\Gamma\vdash \bar{x}_1:\bar{\CC}_2$~~~~$\bar\CC_2<:\bar\CC_1$}
+}
+\UIC{$\Psi;\Gamma\vdash\mathsf{varmatch}(\mathtt{new}~\CC(\bar{x}),\mathtt{new}~\CC(\bar{x}_1))=\big\{\bar{x}:\bar{x}_1\big\}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	\stackanchor
+	{$\Psi\vdash x:\CC_1\hookrightarrow\CC'_1,~\bar{y}:\overline{\CC_2\hookrightarrow\CC'_2}$}
+	{$\Gamma\vdash x_1:\CC_3,\bar{y}_1:\bar{\CC}_4$ ~~~~ $\CC_3<:\CC_1,\bar\CC_4<:\bar\CC_2$}
+}
+\UIC{$\Psi;\Gamma\vdash\mathsf{varmatch}(x.m(\bar{y}),x_1.m(\bar{y}_1))=\big\{x:x_1,\bar{y}:\bar{y}_1\big\}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{$\Psi\vdash x:\CC_1\hookrightarrow\CC'_1$~~~~$\Gamma\vdash x_1:\CC_2$~~~~$\CC_1<:\CC_2$}
+\UIC{$\Psi;\Gamma\vdash\mathsf{lhsvarmatch}(x,x_1)=\big\{\bar{x}:\bar{x}_1\big\}$}
+%%%
+% \AXC{$\Psi\vdash x:\CC_1\hookrightarrow\CC'_1$~~~~$\Gamma\vdash x_1.f:\CC_2$~~~~$\CC_1<:\CC_2$}
+% \UIC{$\Psi;\Gamma\vdash\mathsf{lhsvarmatch}(x,x_1.f)=\big\{\bar{x}:\bar{x}_1\big\}$}
+% \noLine
+% \BIC{}
+\DP
+\end{center}
+
+\flyingbox{$\mathsf{matchpoint}(\hat\pi)$}
+\begin{center}
+\AXC{
+\stackanchor
+	{$\pi=(\bar{x}:\overline{\CC\hookrightarrow\CC})\{...\delta~p_1;\delta~p_2;...\}$~~~~$\delta=\mathbf{m}~|~\mathit{-}$}
+	{$\exists~l_1.(p_1:l_1\in\{\bar{p}:\bar{l}\})\land \neg\exists~l_2.(p_2:l_2\in\{\bar{p}:\bar{l}\})$}
+}
+\UIC{$\mathsf{matchpoint}([\pi](\bar{x}:\bar{v})\{\bar{p}:\bar{l}\})=p_2$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	{$\pi=(\bar{x}:\overline{\CC\hookrightarrow\CC})\{...\delta~p, I^{+}~\}$~~~~$\delta=\mathbf{m}~|~\mathit{-}$~~~~$\exists~l_1.(p_1:l_1\in\{\bar{p}:\bar{l}\})$}
+}
+\UIC{$\mathsf{matchpoint}([\pi](\bar{x}:\bar{v})\{\bar{p}:\bar{l}\})=\epsilon$}
+\DP
+\end{center}
+
+上述的这些形式化定义包括了对于语形类型的匹配以及对于变量之间绑定对象的匹配，总体而言，这个匹配过程可以分为：
+\begin{enumerate}
+\item 语形以及类型匹配：这个阶段采用静态的语形与类型匹配，只要能满足语形一致，类型满足正确的子类关系即可。
+\item 对象绑定匹配：在确定类型语形之后，还需要进行对象的绑定检查，这一步就需要前文涉及到的别名分析，将会检查是否同一变量匹配到的语形对象都互为别名关系，如是才能进行匹配。
+\end{enumerate}
+
+随着数据流分析的进行，匹配者会得到逐步的更新，在出口节点得到一个匹配者集合。
+
+\paragraph{出口操作}
+
+在程序的出口完成匹配操作之后，由于并非所有的匹配都是合法匹配，我们就需要通过出口处的一个分析清理操作来完成不合法匹配者的清除，规则如下。
+
+\flyingbox{$\hat{\Pi}\leadsto_{clean}\hat{\Pi}'$}
+\begin{center}
+\AXC{
+	{$\hat\Pi'=\hat\Pi - \big\{\hat\pi~:~\hat\pi\in\hat\Pi \land \mathsf{matchpoint}(\hat\pi)\neq\epsilon \big\}$~~~~$\forall \hat\pi\in\hat\Pi'.(\mathsf{check}(\hat\pi)\leadsto ok)$
+	}
+}
+\UIC{$\hat{\Pi}\leadsto_{clean}\hat{\Pi}'$}
+\DP
+\end{center}
+
+
+\flyingbox{$\mathsf{check}(\hat\pi)\leadsto $}
+\begin{center}
+\AXC{$V = \big\{*p:l~[U] ~\big|~ *p:l~[U] \in \bar{\beta}\big\}\neq\emptyset$}
+\UIC{$\mathsf{check}([\pi](~\bar{x}:\bar{S}~)\{\bar\beta\})\leadsto \mathit{uncertain~alias~warning~V}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{$\exists~p_1:l_1,p_2:l_2\in\{\bar{p}:\bar{l}\}.(\mathsf{crossloop}(l_1,l_2))$}
+\UIC{$\mathsf{check}([\pi](~\bar{x}:\bar{S}~)\{\bar\beta\})\leadsto \mathit{cross~loop~boundary~warning}$}
+\DP
+\end{center}
+
+\[
+\begin{array}{rl}
+	\mathsf{crossloop}(l_1,l_2)=&\exists~\bar{s}_1~\mathtt{while}(x)\{\bar{s}_2\}~\bar{s}_3.(\\
+		&~~~~(\mathsf{stmt}(l_1)\in \bar{s}_1\land \mathsf{stmt}(l_2)\in \bar{s}_2) \lor (\mathsf{stmt}(l_1)\in \bar{s}_2 \land \mathsf{stmt}(l_2)\in \bar{s}_3))\\
+\end{array}
+\]
+
+\begin{center}
+\AXC{$\exists~p_1:l_1,p_2:l_2\in\{\bar{p}:\bar{l}\}.(\exists~M_1,M_2.(\mathsf{stmt}(l_1)\in M_1 \land \mathsf{stmt}(l_2)\in M_2))$}
+\UIC{$\mathsf{check}([\pi](~\bar{x}:\bar{S}~)\{\bar\beta\})\leadsto \mathit{cross~procedure~warning}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	$\neg\forall~p_1:l_1,p_2:l_2\in\{\bar{p}:\bar{l}\}.(p_1\prec p_2 \Rightarrow l_1\prec l_2)$
+}
+\UIC{$\mathsf{check}([\pi](~\bar{x}:\bar{S}~)\{~\bar{p}:\bar{l}\})\leadsto \mathit{statement~revisit~warning}$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{otherwise}
+\UIC{$\mathsf{check}(\hat{\pi})\leadsto\mathit{ok}$}
+\DP
+\end{center}
+
+这个清除操作需要去掉以下不合法情形：
+\begin{enumerate}
+\item 不合法的跨越了程序边界：在转换过程中，由于不同方法以及循环边界的跨越会导致转换的错误产生，我么就会通过边境检查筛除。
+\item 未完成的匹配：匹配过程中即使到了终点也无法进行完全匹配的匹配者将会被标记为未完成。
+\item 不确定别名关系：一个元变量绑定的变量存在无法确定的别名关系，这种情况会要求用户进行手动确定来完成修改。
+\end{enumerate}
+
+进行了清除之后，剩余的匹配者就是可以用于指导程序等价变换的匹配者了，在下一阶段，就进入了匹配者指导下的程序变换。
+
+\section{匹配者指导下的程序移动}
+
+匹配者指导下的程序移动就表示为程序结构上的重构：通过将程序之间的程序等价移动来最大化程序变换中的匹配转换操作效益。由于前文已经对这个过程进行了较多的描述，在此我们就通过算法来阐述流程的构建。
+
+首先我们介绍移动流程中的符号，如下图所示。
+\newcommand{\s}{s}
+
+\[
+\begin{array}{rcll}
+	\Theta &::=& \emptyset ~|~ \Theta,\pr{\hat\pi;l,...,l} &\text{(Shifting Rules)}\\
+	% \mathsf{balanced}^{\hat\pi}[l] &::=&\overline{cs}_1~\mathsf{stmt}(l)^{\hat\pi}~\overline{cs}_2 &\text{(Balanced Statement Chunk)}\\
+	% 					&|& \mathtt{if}(x)\{\overline{cs}_{11}~\mathsf{balanced}^{\hat\pi}[l]~\overline{cs}_{12}\}\\
+	% 					&&  ~~~~\mathtt{else} \{\overline{cs}_{21}~\mathsf{balanced}^{\hat\pi}[l]~\overline{cs}_{22}\}\\
+	\mathsf{chunk}^{\hat\pi}[l] &::=&\mathsf{stmt}^{\hat\pi}(l)& \text{(Statement Chunk Structure)}\\
+					  & | & \mathtt{if}(x)\{\bar{s}_1~\mathsf{chunk}^{\hat\pi}[l]~\bar{s}_2\}\mathtt{else}\{\bar{s}_3\}\\
+					  & | & \mathtt{if}(x)\{\bar{s}_3\}\mathtt{else}\{\bar{s}_1~\mathsf{chunk}^{\hat\pi}[l]~\bar{s}_2\}\\
+\end{array}
+\]
+
+上图中的$\Theta$用来表示移动的法则，这个法则标注了需要转换的语句对象及其转换的匹配者，其中的标记$l$是用来绑定语句的，这个标记会随着语句的移动而移动，不会改变。另外，$\mathsf{chunk}$结构用来表示一个块状的语法结构，用来在移动过程中进行移动的统一整理。
+
+\begin{algorithm}[H]
+\KwIn{Statement sequence $\bar{s}$, Shifting set $\Theta$, Dependency relation set $\Sigma$ }
+\KwOut{Shifted statement sequence $\bar{s}'$}
+\Begin{
+	$\Theta^{\#}\leftarrow\emptyset$\;
+	\For{each shifting relation $\theta=\pr{\hat\pi;l_1,...,l_n}\in\Theta$}{
+		\For{each adjacent labels $l_k,l_{k+1}$}{
+			/* Perform the shift rule with the given $\theta$ */\\
+			$\bar{s}\leftarrow \mathsf{shift}(\Theta,\Sigma,\Theta^{\#},\pr{\hat\pi;l_k,l_{k+1}},\bar{s})$\;
+			$\Theta^{\#}\leftarrow\Theta^{\#}\cup\{\pr{\hat\pi;l_1,l_2}\}$\;
+		}
+	}
+}
+\caption{Shifting algorithm}
+\end{algorithm}
+
+在移动算法中，我们会根据语句来进行移动操作，移动直到不存在转换者继续能够作用为止。移动算法的主体shift函数将在下文通过转换规则进行表述。
+
+\newcommand{\ifelse}[3]{\mathtt{if}({#1})\{#2\}\mathtt{else}\{{#3}\}}
+\newcommand{\chunk}{\mathsf{chunk}}
+\newcommand{\twolines}[2]{\mbox{\stackanchor{{#1}}{~~~~~~~~~~~~~~{#2}}}}
+\newcommand{\tcol}[2]{\begin{parcolumns}[nofirstindent]{2}\colchunk[1]{#1}\colchunk[2]{#2}\colplacechunks\end{parcolumns}}
+\newcommand{\lf}{\lfloor}
+\newcommand{\rf}{\rfloor}
+
+{\small
+\begin{center}
+\AXC{$\vdash_{\Sigma}^{\Theta} \mathsf{upshift}(\pr{\hat\pi;l_1,l_2},\bar{s}) = \bar{s}'$}
+\RightLabel{(Shift)}
+\UIC{$\mathsf{shift}(\Theta,\Sigma,\Theta^{\#},\pr{\hat\pi;l_1,l_2},\bar{s})=\bar{s}'$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	\stackanchor
+	{$\mathsf{chunk}^{\hat\pi}[l_2] = \mathtt{if}(x)\{\bar{s}_{11}\}\mathtt{else} \{\bar{s}_{21}\}$~~~~$\exists~\mathsf{chunk}^{\hat\pi}[l_1]\in\bar{s}_{11}\lor\exists~\mathsf{chunk}^{\hat\pi}[l_1]\in\bar{s}_{21}$}
+	{$\vdash_{\Sigma}^{\Theta;\Theta^{\#}}\mathsf{upshift}(\pr{\hat\pi;l_1,l_2},\bar{s}_{11})= \bar{s}'_{11}$~~~~$\vdash_{\Sigma}^{\Theta;\Theta^{\#}}\mathsf{upshift}(\pr{\hat\pi;l_1,l_2},\bar{s}_{21})= \bar{s}'_{21}$}
+}\RightLabel{(Upshift-0)}
+\UIC{
+	%\twolines
+	{$\vdash_{\Sigma}^{\Theta;\Theta^{\#}}\mathsf{upshift}(\pr{\hat\pi;l_1,l_2},\bar{s}_1~\mathsf{chunk}^{\hat\pi}[l_2]~\bar{s}_2)$}
+	{$= \bar{s}_1~\ifelse{x}{\bar{s}'_{11}}{\bar{s}'_{21}}~\bar{s}_2$}
+}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	$\vdash^{\Theta;\Theta^{\#}}_{\Sigma}\mathsf{downshift}(\pr{\hat\pi;l_1,l_2},\mathsf{stmt}^{\hat\pi}(l_1)~\bar{s}_2)= \bar{s}'$
+}\RightLabel{(Upshift-1)}
+\UIC{$\vdash^{\Theta;\Theta^{\#}}_{\Sigma}\mathsf{upshift}(\pr{\hat\pi;l_1,l_2}, \bar{s}_1~\mathsf{stmt}^{\hat\pi}(l_1)~\bar{s}_2)~=~\bar{s}_1~\bar{s}'$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	\stackanchor{
+		\stackanchor
+		{$\exists~\mathsf{chunk}^{\hat\pi}[l_1]\in\bar{s}_1\lor \mathsf{chunk}^{\hat\pi}[l_1]\in\bar{s}_2$~~~~$\vdash_{\Sigma}^{\Theta;\Theta^{\#}}\mathsf{closure}^{\uparrow}(\mathsf{chunk}^{\hat\pi}[l_2], \bar{s}_3)=\bar{s}'$}
+		{$\mathsf{upshift}(\pr{\hat\pi;l_1,l_2},\bar{s}_1~\bar{s}'~\mathsf{chunk}^{\hat\pi}[l_2])= \bar{s}''_1$~~~~$\mathsf{upshift}(\pr{\hat\pi;l_1,l_2},\bar{s}''_2~\bar{s}'~\mathsf{chunk}^{\hat\pi}[l_2]'')= \bar{s}''_2$}
+	}{
+		\stackanchor{$\exists\theta=\pr{\hat\pi_x;l_u,l_v}\in\Theta^{\#}.(\exists s_u\in\bar{s}'\land s_u=\mathsf{stmt}^{\hat\pi_x}(l_u))$}
+		{$\mathsf{upshift}(\theta,~\bar{s}_0~\ifelse{x}{\bar{s}''_1}{\bar{s}''_2}~\bar{s}_3\backslash\bar{s}'~\bar{s}_4)= \bar{s}'''$}
+	}
+}\RightLabel{(Upshift-2)}
+\UIC{\twolines{$\vdash^{\Theta;\Theta^{\#}}_{\Sigma}\mathsf{upshift}(\pr{\hat\pi;l_1,l_2},\bar{s}_0~\ifelse{x}{\bar{s}_1}{\bar{s}_2}~\bar{s}_3~\mathsf{chunk}^{\hat\pi}[l_2]~\bar{s}_4)$}{$= \bar{s}'''$}}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	$\neg\exists~\mathsf{chunk}^{\hat\pi}[l_1]\in\bar{s}_1$
+}\RightLabel{(Upshift-3)}
+\UIC{$\vdash^{\Theta;\Theta^{\#}}_{\Sigma}\mathsf{upshift}(\pr{\hat\pi;l_1,l_2}, \bar{s}_1~\mathsf{chunk}^{\hat\pi}[l_2]~\bar{s}_3)~=~\bar{s}_1~\mathsf{chunk}^{\uparrow\hat\pi}[l_2]~\bar{s}_3$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{\;}\RightLabel{(Downshift-1)}
+\UIC{
+	\twolines
+	{$\vdash^{\Theta;\Theta^{\#}}_{\Sigma}\mathsf{downshift}(\pr{\hat\pi;l_1,l_2}, \mathsf{stmt}(l_1)^{\hat\pi}~\bar{s}_1~\mathsf{stmt}^{\hat\pi}(l_2)~\bar{s}_2)$}
+	{$=~\mathsf{stmt}(l_1)^{\hat\pi}~\bar{s}_1~\mathsf{stmt}^{\hat\pi}(l_2)~\bar{s}_2$}
+}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{
+	\stackanchor{
+		\stackanchor
+		{$\exists \mathsf{chunk}^{\hat\pi}[l_2]\in\bar{s}_2\lor \mathsf{chunk}^{\hat\pi}[l_2]\in\bar{s}_3$~~~~$\vdash_{\Sigma}^{\Theta;\Theta^{\#}}\mathsf{closure}^{\uparrow}(\mathsf{stmt}^{\hat\pi}(l_1),\bar{s}_1)=\bar{s}'$~~~~$\mathsf{stmt}^{\hat\pi}(l_1)\leftarrow\!\!\!\!\!\!/_{dep}x$}
+		{$\vdash_{\Sigma}^{\Theta;\Theta^{\#}}\mathsf{downshift}(\pr{\hat\pi;l_1,l_2},\mathsf{stmt}^{\hat\pi}(l_1)~\bar{s}'~\bar{s}_2)= \bar{s}''_2$~~~~$\vdash_{\Sigma}^{\Theta;\Theta^{\#}}\mathsf{downshift}(\pr{\hat\pi;l_1,l_2},\mathsf{stmt}^{\hat\pi}(l_1)~\bar{s}'~\bar{s}_3)= \bar{s}''_3$}
+	}
+	{$\exists\theta=\pr{\hat\pi_x;l_u,l_v}\in\Theta^{\#}.(\exists s_v\in\bar{s}'\land s_v=\mathsf{stmt}^{\hat\pi_x}(l_v))$~~~~$\mathsf{downshift}(\theta,~\bar{s}_0~\bar{s}_1\backslash\bar{s}'~\ifelse{x}{\bar{s}''_2}{\bar{s}''_3})= \bar{s}'''$}
+}\RightLabel{(Downshift-2)}
+\UIC{$\vdash^{\Theta;\Theta^{\#}}_{\Sigma}\mathsf{downshift}(\pr{\hat\pi;l_1,l_2}, \bar{s}_0~\mathsf{stmt}^{\hat\pi}(l_1)~\bar{s}_1~\ifelse{x}{\bar{s}_2}{\bar{s}_3}~\bar{s}_4)~=~\bar{s}'''~\bar{s}_4$}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{otherwise}\RightLabel{(Downshift-2-Warning)}
+\UIC{\twolines{$\vdash^{\Theta;\Theta^{\#}}_{\Sigma}\mathsf{downshift}(\pr{\hat\pi;l_1,l_2}, \bar{s}_0~\mathsf{stmt}^{\hat\pi}(l_1)~\bar{s}_1~\ifelse{x}{\bar{s}_2}{\bar{s}_3}~\bar{s}_4)$}{$\leadsto \textit{Cannot shift due to dependency of $x$.}$}}
+\DP
+\end{center}
+
+\begin{center}
+\AXC{$\neg\exists~\mathsf{chunk}^{\hat\pi}[l_2]\in\bar{s}_2$}\RightLabel{(Downshift-3)}
+\UIC{$\vdash^{\Theta;\Theta^{\#}}_{\Sigma}\mathsf{downshift}(\pr{\hat\pi;l_1,l_2}, \mathsf{stmt}^{\hat\pi}(l_1)~\bar{s}_2)~=~\mathsf{chunk}^{\downarrow\hat\pi}[l_1]~\bar{s}_2)$}
+\DP
+\end{center}
+Post shifting check:
+
+\begin{center}
+\AXC{\twolines{$\neg\exists s\in\overline{s}.(\exists \pi_1,\pi_2\in\hat\Pi.(\exists p_1:l\in\pi_1,p_2:l\in\pi_2.($}{$ \mathsf{label}(s)=l\land p_1~and~p_2~are~deletion~pattern)))$}}
+\UIC{\textit{Interleaving source pattern matching warning}}
+\DP
+\end{center}
+}
+
+
+上述的转换规则就完成了一次调整的操作，而在算法框架中通过对多部分算法的调整我们就可以通过具体的调整来完成对于匹配者绑定对象的匹配。
+
+这些移动规则的主要思路列举如下：在移动过程中，我们首先通过上移操作来使得要求上移的语句进入到分支之中（当需要上移的语句包含在一个块中时，我们会将这个块作为一个整体进行移动）。在上移完成后，我们就会出发下移操作将前文的匹配语句下移到语句块中。（在上下移动过程中，我们会采用连锁移动的方式来指导移动操作，从而保证前文引发的移动不会被现有移动破坏）。
+
+进行移动完成后的代码就具有了所有绑定过的代码都出现在同一个语句块中的特性，这就让我们在接下来的修改阶段能够进行块内替换达到API迁移的目的。接下来我们就介绍修改操作。
+
+\section{代码修改}
+
+移动之后的代码转换就是在基本块中进行代码删除与代码生成操作。在代码删除阶段，我们会将源代码中匹配到匹配者中删除模板中的部分进行删除，同时在删除的块中寻找适当的位置将匹配者中的生成语句实例化，添加到源代码中。
+
+在这一步操作中，我们主要考虑的是如下两个问题：1）代码应当生成在什么位置，2）添加模板中的元变量该由哪些程序变量替换得到。
+
+对于第一个问题，我们采用了一个对于可交换位置的计算来生成代码的方式：程序中的可交换位置即是代码生成之中能够将所有匹配语句通过相邻交换操作进行归并的位置。而对于第二个问题，我们采用的方式即是通过找到元变量绑定变量的别名位置来寻找变量，另一种方式则是原有变量被删除，我们就会为该变量生成一个对应的名字来生成在该位置，从而满足程序的变量生成要求。
+
+具体而言，代码生成算可以分为以下步骤：1）寻找可交换位置，2）使用元变量集合进行变量替换，3）通过回填的方式来进行变量实体化。
+
+\begin{algorithm}\small
+\KwIn{Statement sequence $\bar{s}$, corresponding matcher set $\hat\Pi$}
+\KwOut{Transformed statement sequence $\bar{s}''$}
+\Begin{
+\textit{/*Generate a map that maps each referenced variable $v^{\iota}$ to its definition $v_s^{\iota_s}$*/}\;
+$\phi\leftarrow \mathsf{aliasToDefMap}(\hat\Pi, \bar{s})$\;
+
+$Frags \leftarrow \{\}$; 
+
+\For{each basic block $\overline{ps}$ in $\bar{s}$}{
+	\For{$\hat\pi\in\hat\Pi$}{
+		\If{no statement tagged with active labels of $\hat\pi$ exists in $\overline{ps}$}{
+			\textbf{continue}\;
+		}
+		$\bar{s}^{0}\leftarrow \mathsf{genPartialStmts}(\hat\pi,\overline{ps})$\;
+		$Loc\leftarrow \mathsf{genPos}(\hat\pi,\overline{ps})$\;
+		\eIf{$Loc != \emptyset$}{
+			Randomly choose $loc\in Loc$\;
+			$Frags \leftarrow Frags \cup \{(\bar{s}^{0}, loc, \hat\pi)\}$\;
+		}{
+			Empty generating position warning
+		}
+	}
+}
+
+$\bar{s}'\leftarrow \bar{s}$\;
+\For{each $(\bar{s}^{0},loc,\hat\pi)\in Frags$}{
+	\textit{/*Delete all primitive statements binded to a deletion pattern*/}\\
+	$\bar{s}_1\leftarrow \mathsf{deleteMatchedStmts}(\bar{s}',\hat\Pi)$\;
+
+	\textit{/*insert $\bar{s}^{0}$ in its corresponding location in $\bar{s}_1$*/}\\
+	$\bar{s}'' \leftarrow \mathsf{insertPartialCode}(\bar{s}^{0},\bar{s}_1)$\;
+
+	\textit{/*Backfill program variables in $\bar{s}$ to annotated alias locations*/}\\
+	$\bar{s}''\leftarrow \mathsf{backFill}(\bar{s}'', \bar{s}_1, \phi)$\;
+
+	$\phi\leftarrow \mathsf{updateLocationMap}(\phi,\bar{s}'',\bar{s}',\hat\pi)$\;
+}
+
+}
+\caption{Code Adaptation Algorithm, the location map function $\phi$ is a function that maps a set of aliases to the first definition of the alias, i.e. $\phi(S)=v^{\iota}$, s.t. $\forall v_1^{\iota_1}\in S.(v^{\iota}~and~v_1^{\iota_1}~are~aliases)$.}
+\end{algorithm}
+
+\begin{algorithm}\small
+\KwIn{A statement sequence $\bar{s}$, partial filled statements $\bar{s}'$, location map $\phi$}
+\KwOut{Backfilled statement sequence $\bar{s}'$}
+\Begin{
+	\For{each alias notation $\chi=\mathsf{alias}(S)$}{
+		/* extract the location of $\chi$ */\\
+		$\iota_{\chi} \leftarrow \mathsf{location}(\chi)$\;
+		$v^{\iota}\leftarrow \phi(S)$\;
+		/* If the name $v$ remains an alias of $v^{\iota}$ */\\
+		\eIf{$v^{\iota}$ exists in the $\bar{s}$}{
+			\eIf{ $v^{\iota}$ and $v^{\iota_{\chi}}$ are aliases}{
+				/* Fill the position with $v$ */\\
+				$\chi\leftarrow v$\;
+			}{
+				$u\leftarrow$ fresh variable name\;
+				/*Generate a copy of $v^{\iota}$ using $u$ right after the location $\iota$;*/\\
+				$\mathsf{insert}(u=v;,\iota+1)$\;
+				/* Fill the position with $u$ */\\
+				$\chi\leftarrow u$\;
+			}
+		}{	
+			/* The variable is defined in the deleted code, thus $v$ is a free name now. */\\
+			$\chi\leftarrow v$;
+		}
+	}
+}
+\caption{Backfill algorithm $\mathsf{backfill}(\bar{s}',\bar{s})$}
+\end{algorithm}
+
+
+\begin{algorithm}\small
+\KwIn{The original location map $\phi$, new statements $\bar{s}''$, old statements $\bar{s}',\hat\pi$}
+\KwOut{Updated alias definition mapping $\phi$}
+\Begin{
+	$\gamma \leftarrow \mathsf{id}$\;
+	\For{each $x:S\in \mathsf{varBindings}(\hat\pi)$}{
+		$v^{\iota}\leftarrow\phi(S)$\;
+		\If{$v^{\iota}\in\bar{s}' \land v^{\iota}\not\in\bar{s}''$}{
+			/* In this case, $v^{\iota}$ is defined in the deleted code. According to \\
+			~~*  the backfill algorithm, $v$ will be used as the generation name of $x$ in $\bar{s}''$ */\\
+			$v$ is defined in loctaion $\iota'$ in $\bar{s}''$\;
+			$\gamma \leftarrow \gamma \circ [v^{\iota}\mapsto v^{\iota'}]$
+		}
+	}
+	\For{all $x_1:S_1,x_2:S_2\in \mathsf{varBindings}(\hat\pi)$}{
+		\If{$\phi(S_1)~depends~on~\phi(S_2)~in~\bar{s}' \land (\gamma\circ\phi)(S_2)~depends~on~(\gamma\circ\phi)(S_1)~\in\bar{s}''$}{
+			Report contradictory dependency relation warning\;
+		}
+	}
+	$\phi \leftarrow \gamma\circ\phi$
+}
+\caption{The update algorithm for aliasToDefinition map. $\mathsf{updateLocationMap}$}
+\end{algorithm}
+
+在主算法中，我们会穷举所有可以转换的代码生成点来判断哪些位置可以进行代码生成，在找到了一个合理的代码生成位置之后，我们并不立刻进行删除，而是将所有即将进行删除的代码保存起来，搜集完毕在进行整理操作。
+
+在搜集完毕之后，会将所有标记为删除的代码进行删除，同时在删除的位置插入使用记号标记的变量位置，最后再通过回填的方式将代码中的变量进行插入。
+
+值得注意的是，在代码生成过程中，一个变量在源代码中被删除以后，可能会在多个模板中使用，因此，变量的创建工作就应该由第一个生成语句完成，在创建完毕，就会更新待填充位置到变量的映射，从而让后面应用该变量的部分能够引用该生成的代码，因此在\textsf{update\_algorithm}中，我们的工作就是不断的更新代码空位对于代码变量的引用。
+
+在回填进行完成之后，代码的修改工作就已经完成，这就让程序的修改进入到尾声。在这个时候，用户代码的API替换工作就已经完成。最后需要进行的尾处理工作就是对于正规化阶段生成的多余变量进行inline（注意我们不会修改非自动生成的变量，并且只对inline无害的生成变量进行该操作），从而最大限度的保持源代码的用户风格，让用户能够良好的进行代码的继续使用。
+
+\section{表里语义一致性的证明}
+在这里我们将证明表里语义之间的一致性：即前文所描述的表里语义之间的交换图交换条件满足。
+
+\begin{theorem}
+给定任意的程序 $p$ 以及 $p'$， 满足 $\Pi(p)=p'$ （即$p'$是$p$在$\Pi$的里语义下的转换结果）, 则一定存在另外两个程序$q$ 与
+$q'$， 满足 $p \doteq q$, $p' \doteq q'$, 以及 $\Pi^0(q, q')$。也即，下图交换。
+\begin{equation*}
+  \xymatrix{
+    q \ar[r]^{\Pi^0}  & q' \ar@{<->}[d]^{
+    \doteq} \\
+     p \ar[r]_{\Pi} \ar@{<->}[u]_\doteq & p' }
+\end{equation*}
+\end{theorem}
+\noindent {\it 证明概要.} 首先, 在移动阶段, 我们可以将移动操作分解为原子移动操作，即相邻交换，朴素移动，以及别名变量对象重命名。这是因为我们在进行移动阶段保持了语句以及变量之间的以来关系 (在交换图中我们把这一步变换标记为$\alpha$)。其次, 在修改算法中的代码的生成点 $pt$ 是所有标记语句可以通过原始交换移动到的位置 (我们将这个可以产生的移动阶段记为 $\beta$)。 其三，存在一个从绑定元变量到程序变量之间的映射 $x:S\in \mathsf{varBinding}(\Pi)$, 并且根据我们对绑定操作的要求，每一个元变量只会绑定在一个程序变量对象中，因此我们可以对每个绑定的变量对象重命名，从而让每个元变量绑定的变量对象都名字互不相同。 在这里，我们将元变量到里语义中绑定的程序变量映射定义为$\beta$。 因此这个符合的里语义转换就可以看作是在表语义 $\Pi^{0}$ 上的转换, 这个转换结果为 $p'$. 在完成这个转换之后，我们通过重命名逆变换 $\gamma_1^{-1}$，就能够得到 $\Pi^0(\gamma(\beta(\alpha(p))), \gamma^{-1}(p'))$, 因此我们可以将里语义转换的结果理解为表语以转换与等价变换的复合。$\square$
+\medskip
+至此，我们就完成了表里语义的介绍及其之间等价关系的证明，在接下来的章节中，我们就将分析该变换程序在实验中的表现以及对于相关工作的介绍。

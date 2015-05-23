@@ -39,6 +39,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage[]{algorithm2e}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{xcolor}
 % 按学校要求设定参考文献列表中的条目之内及之间的距离。
@@ -94,6 +95,9 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{definition}{Definition}
 \newtheorem{property}{Property}
+\usepackage{bussproofs}
+\usepackage{stackengine}
+\EnableBpAbbreviations
 \usepackage[all,cmtip]{xy}
 
 \newsavebox{\fmbox}
@@ -188,6 +192,11 @@ tabsize=2, % Number of spaces per tab in the code
 	\input{chap//introduction}
 	% 各章节。
 	\input{chap//chap1}
+	\input{chap//chap2}
+	\input{chap//chap3}
+	\input{chap//chap4}
+	\input{chap//chap5}
+	\input{chap//chap6}
 	% 结论。
 	\input{chap//conclusion}
 

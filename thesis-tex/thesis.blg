@@ -1,22 +1,22 @@
 [0] Config.pm:320> INFO - This is Biber 1.9
 [0] Config.pm:323> INFO - Logfile is 'thesis.blg'
-[285] biber-MSWIN:274> INFO - === %a %b %e, %Y, %H:%M:%S
-[285] Biber.pm:333> INFO - Reading 'thesis.bcf'
-[366] Biber.pm:635> INFO - Found 8 citekeys in bib section 0
-[624] Biber.pm:3051> INFO - Processing section 0
-[905] Biber.pm:3189> INFO - Looking for bibtex format file 'thesis.bib' for section 0
-[968] bibtex.pm:990> INFO - Decoding LaTeX character macros into UTF-8
-[972] bibtex.pm:864> INFO - Found BibTeX data source 'thesis.bib'
-[1118] Utils.pm:144> WARN - BibTeX subsystem: C:\Users\STW\AppData\Local\Temp\pKnZZeZdcv\thesis.bib_3788.utf8, line 146, warning: 339 characters of junk seen at toplevel
-[1118] Utils.pm:144> WARN - BibTeX subsystem: C:\Users\STW\AppData\Local\Temp\pKnZZeZdcv\thesis.bib_3788.utf8, line 232, warning: 955 characters of junk seen at toplevel
-[1325] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1325] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1326] Biber.pm:2928> INFO - Sorting list 'ecnty' of type 'entry' with scheme 'ecnty' and locale 'en-US'
-[1326] Biber.pm:2932> INFO - No sort tailoring available for locale 'en-US'
-[1428] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1429] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1429] Biber.pm:2928> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'en-US'
-[1429] Biber.pm:2932> INFO - No sort tailoring available for locale 'en-US'
-[1449] bbl.pm:517> INFO - Writing 'thesis.bbl' with encoding 'UTF-8'
-[1451] bbl.pm:606> INFO - Output to thesis.bbl
-[1452] Biber.pm:106> INFO - WARNINGS: 2
+[44] biber-MSWIN:274> INFO - === %a %b %e, %Y, %H:%M:%S
+[44] Biber.pm:333> INFO - Reading 'thesis.bcf'
+[134] Biber.pm:635> INFO - Found 18 citekeys in bib section 0
+[176] Biber.pm:3051> INFO - Processing section 0
+[218] Biber.pm:3189> INFO - Looking for bibtex format file 'thesis.bib' for section 0
+[222] bibtex.pm:990> INFO - Decoding LaTeX character macros into UTF-8
+[226] bibtex.pm:864> INFO - Found BibTeX data source 'thesis.bib'
+[255] Utils.pm:144> WARN - BibTeX subsystem: C:\Users\STW\AppData\Local\Temp\pFV8okkT2Z\thesis.bib_8732.utf8, line 146, warning: 339 characters of junk seen at toplevel
+[255] Utils.pm:144> WARN - BibTeX subsystem: C:\Users\STW\AppData\Local\Temp\pFV8okkT2Z\thesis.bib_8732.utf8, line 232, warning: 955 characters of junk seen at toplevel
+[506] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[507] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[507] Biber.pm:2928> INFO - Sorting list 'ecnty' of type 'entry' with scheme 'ecnty' and locale 'en-US'
+[507] Biber.pm:2932> INFO - No sort tailoring available for locale 'en-US'
+[757] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[757] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[757] Biber.pm:2928> INFO - Sorting list 'none' of type 'entry' with scheme 'none' and locale 'en-US'
+[757] Biber.pm:2932> INFO - No sort tailoring available for locale 'en-US'
+[796] bbl.pm:517> INFO - Writing 'thesis.bbl' with encoding 'UTF-8'
+[802] bbl.pm:606> INFO - Output to thesis.bbl
+[802] Biber.pm:106> INFO - WARNINGS: 2

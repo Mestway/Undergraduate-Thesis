@@ -1,0 +1,99 @@
+%!TEX root=..//thesis.tex
+
+\chapter{实验评估}
+
+我们将我们的转换工具实现为eclipse的一个插件，用来进行插件中的Project的转换操作。在实现中我们采用了以下部件：分析工具soot，AST操纵工具eclipse JDT。我们的项目页面在 \url{https://github.com/Mestway/Patl4J}。
+
+在实验中，我们需要进行对于如下问题的评估：
+\begin{enumerate}
+\item 我们进行一个项目转换需要多少的规则来描述？
+\item 在转换过程中我们需要解决多少的多对多问题？
+\item 我们在转换过程中会进行多少错误提示？
+\end{enumerate}
+接下来的部分我们就通过数据来回答以上几个评估问题。
+
+在评估过程中，我们采用了Jdom到Dom4j以及Google calendar v2到Google calendar v3之间的转换。
+
+在这两个项目中，我们进行了Jdom中读写API之间的转换，以及gCalender中全部API的转换。我们书写一下规则使用的代码行数如下图所示：
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        Transformation & Rules & Classes & Methods & M-to-m\\
+        \hline \hline
+        Jdom/Dom4j & 84 & 12 & 77  & 12(14.3\%) \\
+        \hline
+        Calendar & 42 & 14 & 45 & 21(50.0\%) \\
+      \hline
+      \hline
+      Total & 126 & 26 & 122 & 33(26.2\%) \\ 
+        \hline
+    \end{tabular}
+\end{center}
+
+
+由此可见代码转换行数是可以达到人为编程水平的，以及我们在不同的转换中M-to-m（多对多）转换是具有一定数量需要解决的。
+
+使用了上述的这些转换规则，我们在几个客户端程序之中进行了API之间转换，列表如下：
+
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        Client & KLOC & Classes & Methods  & Case\\
+        \hline \hline
+        husacct & 195.6 & 1187  & 5977 & Jdom/Dom4j \\
+        \hline
+        serenoa & 12.2  & 52 & 523 & Jdom/Dom4j \\
+        \hline
+        openfuxml & 112.5 & 727 & 4098 & Jdom/Dom4j \\
+        \hline
+        clinicaweb & 3.9 & 74  & 213 & Calendar \\
+        \hline
+        blasd & 9.7 & 199 & 729 & Calendar  \\
+        \hline
+        goofs & 8.6 & 78 & 643 & Calendar  \\
+      \hline
+      \hline
+      Total & 342.5 & 2317 & 12183 & --\\
+      \hline
+    \end{tabular}
+\end{center}
+
+这几个规则中，husacct是一个软件体系结构表现的检测工具，serenoa是一个用户交互界面的修改框架，openfuxml是一个XML的发布框架，他们都采用了Jdom作为内部的XML处理支持，我们在测试中将他们转换为使用Dom4j接口的XML处理平台。另外的cliniaweb是一个在线临床的诊断平台，blased是一个邮件系统，goofs是一个文件系统，他们都是用了google calendar v2作为其中的日历处理接口，我们在转换中将这些接口升级为v3版本。
+
+这些项目的转换结果如下：
+
+\begin{center}
+    \begin{tabular}{|c|p{0.1\columnwidth}|p{0.1\columnwidth}|c|c|c|c|}
+        \hline
+        Client & CF & CL & U & W & MM \\
+        % methods includes method definition, method invocation, and constructor
+        % declarations includes method declarations and variable declaration
+        \hline \hline
+        husacct     & 42 & 852 & 0& 0(0\%) & 0(0\%)\\
+        \hline
+        serenoa     & 8 & 273 & 0& 3(1\%) & 9(3.3\%) \\
+        \hline
+        openfuxml   & 72 & 983 & 15 &  54 (6.6\%) & 2(0.2\%) \\
+        \hline
+        clinicaweb  & 5 & 81 & 8 & 0 (0\%) & 34(42\%) \\
+        \hline
+        blasd      & 5 & 26 &0& 7 ( 21.2\%) & 13(50\%) \\
+        \hline
+        goofs      & 13 & 100 & 27 & 13 (15.3\%) & 27(27\%) \\
+      \hline
+      \hline
+      Total & 145 & 2315 & 50 & 77(3.2\%) & 85(3.7\%) \\ 
+      \hline
+    \end{tabular}
+    \parbox{\columnwidth}{\it 
+    CF =修改的文件数, CL= 修改的代码行数, U =
+    无法进行转换的代码行数, W = 报转换错误的数目,
+    其中的比例表示 W / (W + CL), 
+    MM = 涉及M-M转换的代码行数,
+  变分比表示 = MM / CL}
+\end{center}
+
+由此可见我们在转换过程中能够较好的处理M-M映射问题，同时能够比较完整的进行API转换工作。
+
+关于项目实现以及使用，更多的消息以及更新请参见项目页面。

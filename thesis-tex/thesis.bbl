@@ -68,6 +68,52 @@
       \field{userf}{en}
       \field{year}{2014}
     \endentry
+    \entry{oopsla05}{inproceedings}{}
+      \name{labelname}{3}{}{%
+        {{hash=e5fbfea16670cd0297473fc2e59ad67c}{Balaban}{B\bibinitperiod}{Ittai}{I\bibinitperiod}{}{}{}{}}%
+        {{hash=5fd9f9ca88e5193e276d121286499543}{Tip}{T\bibinitperiod}{Frank}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=c74789ae1de853eb4a9609ac91e1d1e4}{Fuhrer}{F\bibinitperiod}{Robert}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=e5fbfea16670cd0297473fc2e59ad67c}{Balaban}{B\bibinitperiod}{Ittai}{I\bibinitperiod}{}{}{}{}}%
+        {{hash=5fd9f9ca88e5193e276d121286499543}{Tip}{T\bibinitperiod}{Frank}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=c74789ae1de853eb4a9609ac91e1d1e4}{Fuhrer}{F\bibinitperiod}{Robert}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{692c187c0a2dd5d8960dad8365e2e97c}
+      \strng{fullhash}{692c187c0a2dd5d8960dad8365e2e97c}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Refactoring Support for Class Library Migration}}
+      \field{booktitle}{OOPSLA}
+      \field{title}{{Refactoring Support for Class Library Migration}}
+      \field{userf}{en}
+      \field{year}{2005}
+      \field{pages}{265\bibrangedash 279}
+    \endentry
+    \entry{mj}{report}{}
+      \name{labelname}{3}{}{%
+        {{hash=baa3dce4b5645d600c1aa4a8ea5aea7c}{Bierman}{B\bibinitperiod}{Gavin}{G\bibinitperiod}{}{}{}{}}%
+        {{hash=0f0a0f20647262535a9cc770e428660f}{Parkinson}{P\bibinitperiod}{Matthew}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=5f4c7561267bbc8da5d4b87470063342}{Pitts}{P\bibinitperiod}{Andrew}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=baa3dce4b5645d600c1aa4a8ea5aea7c}{Bierman}{B\bibinitperiod}{Gavin}{G\bibinitperiod}{}{}{}{}}%
+        {{hash=0f0a0f20647262535a9cc770e428660f}{Parkinson}{P\bibinitperiod}{Matthew}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=5f4c7561267bbc8da5d4b87470063342}{Pitts}{P\bibinitperiod}{Andrew}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \list{institution}{1}{%
+        {Technical Report 563, Cambridge University Computer Laboratory}%
+      }
+      \strng{namehash}{785578fc2fdfeff94fafe445ae6d7e2b}
+      \strng{fullhash}{785578fc2fdfeff94fafe445ae6d7e2b}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{MJ: An imperative core calculus for Java and Java with effects}}
+      \field{title}{{MJ: An imperative core calculus for Java and Java with effects}}
+      \field{type}{techreport}
+      \field{userf}{en}
+      \field{year}{2003}
+    \endentry
     \entry{stratego}{article}{}
       \name{labelname}{4}{}{%
         {{hash=96ba05fdfa514a7759c223c4fd6adf99}{Bravenboer}{B\bibinitperiod}{Martin}{M\bibinitperiod}{}{}{}{}}%
@@ -110,6 +156,116 @@
       \field{year}{2006}
       \field{pages}{190\bibrangedash 210}
     \endentry
+    \entry{reba}{inproceedings}{}
+      \name{labelname}{4}{}{%
+        {{hash=46f9f117e6f1078f5cdc5c462fba017e}{Dig}{D\bibinitperiod}{Danny}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=f0181da1b2fa25ca098d5d4c7f5add71}{Negara}{N\bibinitperiod}{Stas}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=1e67ddc3049c8693e511959b77054fe6}{Mohindra}{M\bibinitperiod}{Vibhu}{V\bibinitperiod}{}{}{}{}}%
+        {{hash=fd79e5e249b219ff553fc2d811104d78}{Johnson}{J\bibinitperiod}{Ralph}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=46f9f117e6f1078f5cdc5c462fba017e}{Dig}{D\bibinitperiod}{Danny}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=f0181da1b2fa25ca098d5d4c7f5add71}{Negara}{N\bibinitperiod}{Stas}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=1e67ddc3049c8693e511959b77054fe6}{Mohindra}{M\bibinitperiod}{Vibhu}{V\bibinitperiod}{}{}{}{}}%
+        {{hash=fd79e5e249b219ff553fc2d811104d78}{Johnson}{J\bibinitperiod}{Ralph}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{c32bb694fdfbbd8c348427805135f71d}
+      \strng{fullhash}{474eecf71ea64433887136f45979d7da}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{ReBA: Refactoring-aware Binary Adaptation of Evolving Libraries}}
+      \field{booktitle}{ICSE}
+      \field{title}{{ReBA: Refactoring-aware Binary Adaptation of Evolving Libraries}}
+      \field{userf}{en}
+      \field{year}{2008}
+      \field{pages}{441\bibrangedash 450}
+    \endentry
+    \entry{catchup}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=7fd0cdd6ee5449a76cf973d56e177b5f}{Henkel}{H\bibinitperiod}{Johannes}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=d2ffbad9e0c378dddb54ea9b8797699d}{Diwan}{D\bibinitperiod}{Amer}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=7fd0cdd6ee5449a76cf973d56e177b5f}{Henkel}{H\bibinitperiod}{Johannes}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=d2ffbad9e0c378dddb54ea9b8797699d}{Diwan}{D\bibinitperiod}{Amer}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{d866e15204e05c5bca717d86fec030cb}
+      \strng{fullhash}{d866e15204e05c5bca717d86fec030cb}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{CatchUp!: Capturing and Replaying Refactorings to Support API Evolution}}
+      \field{booktitle}{ICSE}
+      \field{title}{{CatchUp!: Capturing and Replaying Refactorings to Support API Evolution}}
+      \field{userf}{en}
+      \field{year}{2005}
+      \field{pages}{274\bibrangedash 283}
+    \endentry
+    \entry{fj}{article}{}
+      \name{labelname}{3}{}{%
+        {{hash=202d1c7ffd61337419382d4da23bf848}{Igarashi}{I\bibinitperiod}{Atsushi}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=14087241181b29c2e45120d3b104af0b}{Pierce}{P\bibinitperiod}{Benjamin\bibnamedelima C}{B\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+        {{hash=b4d861345944ddeeaf658a11c2f0f6a7}{Wadler}{W\bibinitperiod}{Philip}{P\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=202d1c7ffd61337419382d4da23bf848}{Igarashi}{I\bibinitperiod}{Atsushi}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=14087241181b29c2e45120d3b104af0b}{Pierce}{P\bibinitperiod}{Benjamin\bibnamedelima C}{B\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+        {{hash=b4d861345944ddeeaf658a11c2f0f6a7}{Wadler}{W\bibinitperiod}{Philip}{P\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{9b628bbd003a2bc924b393dd5613576a}
+      \strng{fullhash}{9b628bbd003a2bc924b393dd5613576a}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Featherweight Java: a minimal core calculus for Java and GJ}}
+      \field{journaltitle}{ACM Transactions on Programming Languages and Systems}
+      \field{title}{{Featherweight Java: a minimal core calculus for Java and GJ}}
+      \field{userf}{en}
+      \field{year}{2001}
+      \field{pages}{396\bibrangedash 450}
+    \endentry
+    \entry{imperative}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=e4f6e31fb36fbb5405ed67c323d038fb}{Lacey}{L\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=8ec43ea619b7159f3faa90641567d388}{De\bibnamedelima Moor}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{Oege}{O\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=e4f6e31fb36fbb5405ed67c323d038fb}{Lacey}{L\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=8ec43ea619b7159f3faa90641567d388}{De\bibnamedelima Moor}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{Oege}{O\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{fa5d88dca06602026e333280e8c67bdc}
+      \strng{fullhash}{fa5d88dca06602026e333280e8c67bdc}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Imperative program transformation by rewriting}}
+      \field{booktitle}{CC}
+      \field{title}{{Imperative program transformation by rewriting}}
+      \field{userf}{en}
+      \field{year}{2001}
+      \field{pages}{52\bibrangedash 68}
+    \endentry
+    \entry{swin}{inproceedings}{}
+      \name{labelname}{4}{}{%
+        {{hash=bc20e54573d2db853852f86802ab83de}{Li}{L\bibinitperiod}{Jun}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=26b90c8cb6735654ece324f21187cd2e}{Wang}{W\bibinitperiod}{Chenglong}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=b54d80336b0ff55a06b42f5bf4e1ca5f}{Xiong}{X\bibinitperiod}{Yingfei}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=aa123f617e3811bba0121021e0329f91}{Hu}{H\bibinitperiod}{Zhenjiang}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=bc20e54573d2db853852f86802ab83de}{Li}{L\bibinitperiod}{Jun}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=26b90c8cb6735654ece324f21187cd2e}{Wang}{W\bibinitperiod}{Chenglong}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=b54d80336b0ff55a06b42f5bf4e1ca5f}{Xiong}{X\bibinitperiod}{Yingfei}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=aa123f617e3811bba0121021e0329f91}{Hu}{H\bibinitperiod}{Zhenjiang}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{d013596c237565989985e1de4e44bac1}
+      \strng{fullhash}{7215a43ec566ba9426aed3df6978b6d7}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{SWIN: Towards Type-Safe Java Program Adaptation Between APIs}}
+      \field{booktitle}{PEPM}
+      \field{title}{{SWIN: Towards Type-Safe Java Program Adaptation Between APIs}}
+      \field{userf}{en}
+      \field{year}{2015}
+      \field{pages}{91\bibrangedash 102}
+    \endentry
     \entry{twinning}{inproceedings}{}
       \name{labelname}{2}{}{%
         {{hash=c4e4f9e879082c5b8fab4b382403e456}{Nita}{N\bibinitperiod}{Marius}{M\bibinitperiod}{}{}{}{}}%
@@ -129,6 +285,25 @@
       \field{userf}{en}
       \field{year}{2010}
       \field{pages}{205\bibrangedash 214}
+    \endentry
+    \entry{tapl}{book}{}
+      \name{labelname}{1}{}{%
+        {{hash=14087241181b29c2e45120d3b104af0b}{Pierce}{P\bibinitperiod}{Benjamin\bibnamedelima C}{B\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=14087241181b29c2e45120d3b104af0b}{Pierce}{P\bibinitperiod}{Benjamin\bibnamedelima C}{B\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {MIT press}%
+      }
+      \strng{namehash}{14087241181b29c2e45120d3b104af0b}
+      \strng{fullhash}{14087241181b29c2e45120d3b104af0b}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Types and programming languages}}
+      \field{title}{{Types and programming languages}}
+      \field{userf}{en}
+      \field{year}{2002}
     \endentry
     \entry{python}{book}{}
       \name{labelname}{1}{}{%
@@ -170,6 +345,50 @@
       \field{userf}{en}
       \field{year}{2010}
       \field{pages}{1\bibrangedash 10}
+    \endentry
+    \entry{swin-tr}{report}{}
+      \name{labelname}{4}{}{%
+        {{hash=c4ff95a2ff3c3b2ce0dd0c2f62185112}{Wang}{W\bibinitperiod}{C.}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=262394c964914c2a67b690bd67fde298}{Li}{L\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=4ba121af7a5570de44f2bcc020045557}{Xiong}{X\bibinitperiod}{Y.}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=25adef67b187367ab3e1072e06282d2f}{Hu.}{H\bibinitperiod}{Z.}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=c4ff95a2ff3c3b2ce0dd0c2f62185112}{Wang}{W\bibinitperiod}{C.}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=262394c964914c2a67b690bd67fde298}{Li}{L\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=4ba121af7a5570de44f2bcc020045557}{Xiong}{X\bibinitperiod}{Y.}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=25adef67b187367ab3e1072e06282d2f}{Hu.}{H\bibinitperiod}{Z.}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \list{institution}{1}{%
+        {Institute of Software, Peking University}%
+      }
+      \strng{namehash}{0deee971148bad46259e4b6588db00e1}
+      \strng{fullhash}{ad34725a4df91dfe58008cca1a2e9d44}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Formal Definition of SWIN language}}
+      \field{title}{{Formal Definition of SWIN language}}
+      \field{type}{techreport}
+      \field{userf}{en}
+      \field{year}{2014}
+    \endentry
+    \entry{refaster}{inproceedings}{}
+      \name{labelname}{1}{}{%
+        {{hash=8142cb87e8622aca3b77fb1a08edb080}{Wasserman}{W\bibinitperiod}{Louis}{L\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=8142cb87e8622aca3b77fb1a08edb080}{Wasserman}{W\bibinitperiod}{Louis}{L\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{8142cb87e8622aca3b77fb1a08edb080}
+      \strng{fullhash}{8142cb87e8622aca3b77fb1a08edb080}
+      \field{sortinit}{e}
+      \field{sortinithash}{655e26c7438ff123e5c69c6c3f702107}
+      \field{labeltitle}{{Scalable, Example-based Refactorings with Refaster}}
+      \field{booktitle}{WRT}
+      \field{title}{{Scalable, Example-based Refactorings with Refaster}}
+      \field{userf}{en}
+      \field{year}{2013}
+      \field{pages}{25\bibrangedash 28}
     \endentry
     \entry{test-zh}{article}{}
       \name{labelname}{1}{}{%
@@ -324,6 +543,225 @@
       \field{userf}{en}
       \field{year}{2012}
       \field{pages}{382\bibrangedash 385}
+    \endentry
+    \entry{mj}{report}{}
+      \name{labelname}{3}{}{%
+        {{hash=baa3dce4b5645d600c1aa4a8ea5aea7c}{Bierman}{B\bibinitperiod}{Gavin}{G\bibinitperiod}{}{}{}{}}%
+        {{hash=0f0a0f20647262535a9cc770e428660f}{Parkinson}{P\bibinitperiod}{Matthew}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=5f4c7561267bbc8da5d4b87470063342}{Pitts}{P\bibinitperiod}{Andrew}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=baa3dce4b5645d600c1aa4a8ea5aea7c}{Bierman}{B\bibinitperiod}{Gavin}{G\bibinitperiod}{}{}{}{}}%
+        {{hash=0f0a0f20647262535a9cc770e428660f}{Parkinson}{P\bibinitperiod}{Matthew}{M\bibinitperiod}{}{}{}{}}%
+        {{hash=5f4c7561267bbc8da5d4b87470063342}{Pitts}{P\bibinitperiod}{Andrew}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \list{institution}{1}{%
+        {Technical Report 563, Cambridge University Computer Laboratory}%
+      }
+      \strng{namehash}{785578fc2fdfeff94fafe445ae6d7e2b}
+      \strng{fullhash}{785578fc2fdfeff94fafe445ae6d7e2b}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{MJ: An imperative core calculus for Java and Java with effects}}
+      \field{title}{{MJ: An imperative core calculus for Java and Java with effects}}
+      \field{type}{techreport}
+      \field{userf}{en}
+      \field{year}{2003}
+    \endentry
+    \entry{fj}{article}{}
+      \name{labelname}{3}{}{%
+        {{hash=202d1c7ffd61337419382d4da23bf848}{Igarashi}{I\bibinitperiod}{Atsushi}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=14087241181b29c2e45120d3b104af0b}{Pierce}{P\bibinitperiod}{Benjamin\bibnamedelima C}{B\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+        {{hash=b4d861345944ddeeaf658a11c2f0f6a7}{Wadler}{W\bibinitperiod}{Philip}{P\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=202d1c7ffd61337419382d4da23bf848}{Igarashi}{I\bibinitperiod}{Atsushi}{A\bibinitperiod}{}{}{}{}}%
+        {{hash=14087241181b29c2e45120d3b104af0b}{Pierce}{P\bibinitperiod}{Benjamin\bibnamedelima C}{B\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+        {{hash=b4d861345944ddeeaf658a11c2f0f6a7}{Wadler}{W\bibinitperiod}{Philip}{P\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{9b628bbd003a2bc924b393dd5613576a}
+      \strng{fullhash}{9b628bbd003a2bc924b393dd5613576a}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Featherweight Java: a minimal core calculus for Java and GJ}}
+      \field{journaltitle}{ACM Transactions on Programming Languages and Systems}
+      \field{title}{{Featherweight Java: a minimal core calculus for Java and GJ}}
+      \field{userf}{en}
+      \field{year}{2001}
+      \field{pages}{396\bibrangedash 450}
+    \endentry
+    \entry{tapl}{book}{}
+      \name{labelname}{1}{}{%
+        {{hash=14087241181b29c2e45120d3b104af0b}{Pierce}{P\bibinitperiod}{Benjamin\bibnamedelima C}{B\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=14087241181b29c2e45120d3b104af0b}{Pierce}{P\bibinitperiod}{Benjamin\bibnamedelima C}{B\bibinitperiod\bibinitdelim C\bibinitperiod}{}{}{}{}}%
+      }
+      \list{publisher}{1}{%
+        {MIT press}%
+      }
+      \strng{namehash}{14087241181b29c2e45120d3b104af0b}
+      \strng{fullhash}{14087241181b29c2e45120d3b104af0b}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Types and programming languages}}
+      \field{title}{{Types and programming languages}}
+      \field{userf}{en}
+      \field{year}{2002}
+    \endentry
+    \entry{swin-tr}{report}{}
+      \name{labelname}{4}{}{%
+        {{hash=c4ff95a2ff3c3b2ce0dd0c2f62185112}{Wang}{W\bibinitperiod}{C.}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=262394c964914c2a67b690bd67fde298}{Li}{L\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=4ba121af7a5570de44f2bcc020045557}{Xiong}{X\bibinitperiod}{Y.}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=25adef67b187367ab3e1072e06282d2f}{Hu.}{H\bibinitperiod}{Z.}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=c4ff95a2ff3c3b2ce0dd0c2f62185112}{Wang}{W\bibinitperiod}{C.}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=262394c964914c2a67b690bd67fde298}{Li}{L\bibinitperiod}{J.}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=4ba121af7a5570de44f2bcc020045557}{Xiong}{X\bibinitperiod}{Y.}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=25adef67b187367ab3e1072e06282d2f}{Hu.}{H\bibinitperiod}{Z.}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \list{institution}{1}{%
+        {Institute of Software, Peking University}%
+      }
+      \strng{namehash}{0deee971148bad46259e4b6588db00e1}
+      \strng{fullhash}{ad34725a4df91dfe58008cca1a2e9d44}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Formal Definition of SWIN language}}
+      \field{title}{{Formal Definition of SWIN language}}
+      \field{type}{techreport}
+      \field{userf}{en}
+      \field{year}{2014}
+    \endentry
+    \entry{swin}{inproceedings}{}
+      \name{labelname}{4}{}{%
+        {{hash=bc20e54573d2db853852f86802ab83de}{Li}{L\bibinitperiod}{Jun}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=26b90c8cb6735654ece324f21187cd2e}{Wang}{W\bibinitperiod}{Chenglong}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=b54d80336b0ff55a06b42f5bf4e1ca5f}{Xiong}{X\bibinitperiod}{Yingfei}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=aa123f617e3811bba0121021e0329f91}{Hu}{H\bibinitperiod}{Zhenjiang}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=bc20e54573d2db853852f86802ab83de}{Li}{L\bibinitperiod}{Jun}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=26b90c8cb6735654ece324f21187cd2e}{Wang}{W\bibinitperiod}{Chenglong}{C\bibinitperiod}{}{}{}{}}%
+        {{hash=b54d80336b0ff55a06b42f5bf4e1ca5f}{Xiong}{X\bibinitperiod}{Yingfei}{Y\bibinitperiod}{}{}{}{}}%
+        {{hash=aa123f617e3811bba0121021e0329f91}{Hu}{H\bibinitperiod}{Zhenjiang}{Z\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{d013596c237565989985e1de4e44bac1}
+      \strng{fullhash}{7215a43ec566ba9426aed3df6978b6d7}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{SWIN: Towards Type-Safe Java Program Adaptation Between APIs}}
+      \field{booktitle}{PEPM}
+      \field{title}{{SWIN: Towards Type-Safe Java Program Adaptation Between APIs}}
+      \field{userf}{en}
+      \field{year}{2015}
+      \field{pages}{91\bibrangedash 102}
+    \endentry
+    \entry{oopsla05}{inproceedings}{}
+      \name{labelname}{3}{}{%
+        {{hash=e5fbfea16670cd0297473fc2e59ad67c}{Balaban}{B\bibinitperiod}{Ittai}{I\bibinitperiod}{}{}{}{}}%
+        {{hash=5fd9f9ca88e5193e276d121286499543}{Tip}{T\bibinitperiod}{Frank}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=c74789ae1de853eb4a9609ac91e1d1e4}{Fuhrer}{F\bibinitperiod}{Robert}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{3}{}{%
+        {{hash=e5fbfea16670cd0297473fc2e59ad67c}{Balaban}{B\bibinitperiod}{Ittai}{I\bibinitperiod}{}{}{}{}}%
+        {{hash=5fd9f9ca88e5193e276d121286499543}{Tip}{T\bibinitperiod}{Frank}{F\bibinitperiod}{}{}{}{}}%
+        {{hash=c74789ae1de853eb4a9609ac91e1d1e4}{Fuhrer}{F\bibinitperiod}{Robert}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{692c187c0a2dd5d8960dad8365e2e97c}
+      \strng{fullhash}{692c187c0a2dd5d8960dad8365e2e97c}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Refactoring Support for Class Library Migration}}
+      \field{booktitle}{OOPSLA}
+      \field{title}{{Refactoring Support for Class Library Migration}}
+      \field{userf}{en}
+      \field{year}{2005}
+      \field{pages}{265\bibrangedash 279}
+    \endentry
+    \entry{refaster}{inproceedings}{}
+      \name{labelname}{1}{}{%
+        {{hash=8142cb87e8622aca3b77fb1a08edb080}{Wasserman}{W\bibinitperiod}{Louis}{L\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{1}{}{%
+        {{hash=8142cb87e8622aca3b77fb1a08edb080}{Wasserman}{W\bibinitperiod}{Louis}{L\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{8142cb87e8622aca3b77fb1a08edb080}
+      \strng{fullhash}{8142cb87e8622aca3b77fb1a08edb080}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Scalable, Example-based Refactorings with Refaster}}
+      \field{booktitle}{WRT}
+      \field{title}{{Scalable, Example-based Refactorings with Refaster}}
+      \field{userf}{en}
+      \field{year}{2013}
+      \field{pages}{25\bibrangedash 28}
+    \endentry
+    \entry{reba}{inproceedings}{}
+      \name{labelname}{4}{}{%
+        {{hash=46f9f117e6f1078f5cdc5c462fba017e}{Dig}{D\bibinitperiod}{Danny}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=f0181da1b2fa25ca098d5d4c7f5add71}{Negara}{N\bibinitperiod}{Stas}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=1e67ddc3049c8693e511959b77054fe6}{Mohindra}{M\bibinitperiod}{Vibhu}{V\bibinitperiod}{}{}{}{}}%
+        {{hash=fd79e5e249b219ff553fc2d811104d78}{Johnson}{J\bibinitperiod}{Ralph}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{4}{}{%
+        {{hash=46f9f117e6f1078f5cdc5c462fba017e}{Dig}{D\bibinitperiod}{Danny}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=f0181da1b2fa25ca098d5d4c7f5add71}{Negara}{N\bibinitperiod}{Stas}{S\bibinitperiod}{}{}{}{}}%
+        {{hash=1e67ddc3049c8693e511959b77054fe6}{Mohindra}{M\bibinitperiod}{Vibhu}{V\bibinitperiod}{}{}{}{}}%
+        {{hash=fd79e5e249b219ff553fc2d811104d78}{Johnson}{J\bibinitperiod}{Ralph}{R\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{c32bb694fdfbbd8c348427805135f71d}
+      \strng{fullhash}{474eecf71ea64433887136f45979d7da}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{ReBA: Refactoring-aware Binary Adaptation of Evolving Libraries}}
+      \field{booktitle}{ICSE}
+      \field{title}{{ReBA: Refactoring-aware Binary Adaptation of Evolving Libraries}}
+      \field{userf}{en}
+      \field{year}{2008}
+      \field{pages}{441\bibrangedash 450}
+    \endentry
+    \entry{catchup}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=7fd0cdd6ee5449a76cf973d56e177b5f}{Henkel}{H\bibinitperiod}{Johannes}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=d2ffbad9e0c378dddb54ea9b8797699d}{Diwan}{D\bibinitperiod}{Amer}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=7fd0cdd6ee5449a76cf973d56e177b5f}{Henkel}{H\bibinitperiod}{Johannes}{J\bibinitperiod}{}{}{}{}}%
+        {{hash=d2ffbad9e0c378dddb54ea9b8797699d}{Diwan}{D\bibinitperiod}{Amer}{A\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{d866e15204e05c5bca717d86fec030cb}
+      \strng{fullhash}{d866e15204e05c5bca717d86fec030cb}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{CatchUp!: Capturing and Replaying Refactorings to Support API Evolution}}
+      \field{booktitle}{ICSE}
+      \field{title}{{CatchUp!: Capturing and Replaying Refactorings to Support API Evolution}}
+      \field{userf}{en}
+      \field{year}{2005}
+      \field{pages}{274\bibrangedash 283}
+    \endentry
+    \entry{imperative}{inproceedings}{}
+      \name{labelname}{2}{}{%
+        {{hash=e4f6e31fb36fbb5405ed67c323d038fb}{Lacey}{L\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=8ec43ea619b7159f3faa90641567d388}{De\bibnamedelima Moor}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{Oege}{O\bibinitperiod}{}{}{}{}}%
+      }
+      \name{author}{2}{}{%
+        {{hash=e4f6e31fb36fbb5405ed67c323d038fb}{Lacey}{L\bibinitperiod}{David}{D\bibinitperiod}{}{}{}{}}%
+        {{hash=8ec43ea619b7159f3faa90641567d388}{De\bibnamedelima Moor}{D\bibinitperiod\bibinitdelim M\bibinitperiod}{Oege}{O\bibinitperiod}{}{}{}{}}%
+      }
+      \strng{namehash}{fa5d88dca06602026e333280e8c67bdc}
+      \strng{fullhash}{fa5d88dca06602026e333280e8c67bdc}
+      \field{sortinit}{0}
+      \field{sortinithash}{a08a9549c5c2429f8cec5d1a581b26ca}
+      \field{labeltitle}{{Imperative program transformation by rewriting}}
+      \field{booktitle}{CC}
+      \field{title}{{Imperative program transformation by rewriting}}
+      \field{userf}{en}
+      \field{year}{2001}
+      \field{pages}{52\bibrangedash 68}
     \endentry
     \entry{test-en}{article}{}
       \name{labelname}{1}{}{%

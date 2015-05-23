@@ -1,0 +1,125 @@
+%!TEX root=..//thesis.tex
+
+\chapter{语形(Syntax)}
+
+在这一个章节，我们将通过对Patl语形的定义来形式化的介绍这一门变换语言。
+
+\section{中量级Java (Middleweight Java)}
+出于形式化的清晰以及让读者可读性的考虑，我们将Patl的作用对象定义在了Middleweight Java\cite{mj}上。因此在介绍Patl之前，我们首先介绍Middleweight Java的特点及其语形。
+
+Middleweight Java(简称作为MJ)，作为Featherweight\cite{fj} 的扩展形式（FJ是著名常用的Java的函数式抽象语言，其简洁的模型让很多论文都采用其来进行对于Java核心功能的模拟），MJ模型化了Java语言的很多命令式编程特征：例如赋值语句，域访问(Field Access)语句，空指针，构造函数，以及block结构与副作用系统。
+
+由于我们的程序首先会在Middleweight Java上进行正规化操作，将MJ语言规范到三地址形式的MJ上，因此，我们在形式化的时候采用了MJ的一个三地址版本：我们将方法调用(Method Invocation)，或者对象构造(Object construction)，域访问语句的目标对象，分支语句的条件，循环语句的条件都降维到了单变量的形式（通过在语句执行前进行变量赋值来降维所需参数的形式）。因此我们在接下来的章节中将采用正规化的MJ形式而不再反复说明MJ的正规化过程，具体过程可以参见实现中的Java文档。
+
+此外，在我们的形式化记号中，我们采用Pierce\cite{tapl}的bar notation来模式化重复的元组：对于一个元素序列$a_1,a_2,...,a_n$以及在单一值上定义的元素操作，我们采用如下的上划线记号来表示:$\bar{a}$。例如：$\bar{a}<\bar{c}$等价于$\forall i. a_i < c_i$，符号$\bar{C}~\bar{f}$等价于$C_1~f_1,...,C_n~f_n$，其中n是这个序列的长度。
+
+中量级Java的语形如下图所示：
+
+\begin{figure}[ht]
+\[
+\begin{array}{ccll}
+p 	&::=& \overline{cd}& \text{(Program)} \\
+cd 	&::=& \mathtt{class}~\mathtt{C}~\mathtt{extends}~\mathtt{C}  &
+                                                       \text{(Class)}\\
+  && \{\overline{fd}~cnd~\overline{md}\}&\\
+fd 	&::=& \mathtt{C}~f & \text{(Field)}\\
+cnd\!\! &::=& \mathtt{C}(\bar{\mathtt{C}}~\bar{x})\{vd~\mathtt{super}(\bar{e});\overline{s}\} & \text{(Constructor)}\\
+md 	&::=& \tau~m(\bar{\mathtt{C}}~\bar{x})\{vd~\overline{s}~\mathtt{return}~x;\} & \text{(Method)}\\
+vd 	&::=& \bar{\mathtt{C}}~\bar{x}; & \text{(Variable Decl)}\\
+\tau &::=& \mathtt{void} ~|~ \mathtt{C} & \text{(Return Type)}\\
+s 	&::=& ps & \text{(Statement)}\\
+	& | & \mathtt{if}(x)~\{\overline{s}\}~\mathtt{else}~\{\overline{s}\}\\
+	& | & \mathtt{while}(x)\{\overline{s}\} \\
+ps 	&::=& x=e; ~|~ x.f=e; ~|~ pe; & \text{(Primitive Stmt})\\
+e 	&::=& \mathtt{null} ~|~ x ~|~ x.f ~|~ (\mathtt{C})~x ~|~ pe & \text{(Expression)}\\
+pe 	&::=& x.m(\bar{x}) ~|~ \mathtt{new}~\mathtt{C}(\bar{x}) &
+                                                          \text{(Promotable Expr)}
+\end{array}
+\] 
+
+\caption{Syntax of normalized MJ, where metavariable $x$ ranges over variables, $f$ ranges over field names, and $C$
+ranges over type names.}
+\label{mj-syntax}
+\end{figure}
+
+中量级Java的程序是由一组类的定义构成，而其中类的定义则是由类名，扩展对象名以及其体内的域定义，构造函数以及方式定义而组成。其中的域定义，方法定义以及构造者定义都与普通的Java类似。在语句层次，为了简明起见，我们没有model类似于断言语句这样实质是表达式语句的形式，而只考虑了最为典型的几种：包括基本语句（更细分为赋值语句，域赋值语句，以及可提升表达式语句）和分支、循环语句。我们在设计中将基本语句与赋值语句分离开，是为了让程序在进行变换时候的作用对象都是在基本语句的层次。最终的表达式层次则模式化了变量，创建语句，空指针，以及转类语句。
+
+有了这样的一些基本语言定义，我们就可以通过定义Patl在这个正规化MJ的作用在定义Patl的语义了。
+
+\section{Patl语形}
+我们将Patl语形放置在如下图所示。Patl语言的特点在于其规则化程序，程序由一组规则构成，因而用户在书写程序时只需要指明旧API与新API之间的对应关系就能作为转换程序的主题来描述整个转换过程。
+
+\begin{figure}[ht]
+\[
+\begin{array}{ccllcccc}
+   \Pi 	&::=&  	\emptyset ~|~ \Pi,\pi & \text{(Rule Sequence)}\\
+   \pi 	&::=&  	(\bar{x}:\overline{\mathtt{C}\hookrightarrow\mathtt{C}})~\{I\} & \text{(Transformation Rule)}\\
+   I 	&::=& 	I^{m};I^{-};I^{+} 	&	\text{(Rule Body)}\\
+   I^{m}&::=& 	\emptyset ~|~ \mathbf{m}~p;I^{m}	& \text{(Context Pattern)}\\
+   I^{-}&::=& 	\mathit{-}~p ~|~ \mathit{-}~p;I^{-} & \text{(Source Pattern)}\\
+   I^{+}&::=& 	\emptyset ~|~ \mathit{+}~p;I^{+} 	& \text{(Target Pattern)}\\
+   p 	&::=& 	x = r ~|~ r	 & \text{(Statement Pattern)}\\
+   r 	&::=&	x.m(\bar{x}) ~|~ \mathtt{new~C}(\bar{x}) ~|~ x.f & \text{(Expression Pattern)}\\
+\end{array}
+\]
+\caption{PATL syntax, where metavariable $x$ ranges over PATL metavariables and $\mathtt{C}$ ranges over MJ types.}
+\label{fg-syntax}
+\end{figure}
+
+如上图，Patl语言是由一系列的转换规则构成的（图中的$\Pi$），每条规则($\pi$)由两个部分组成，其中一部分是元变量的定义，另一部分是顺序语句模式的定义。其中的顺序模式定义又进一步分为了三个部分：1）上下文模式$I^{m}$，这部分是用来匹配一段代码上下文的，当这段模式被匹配上之后才能进行后面修改语句的匹配；2）第二部分是删除类语句$I^-$，删除类语句是在进行匹配之后将会进行删除的程序片段；3）第三部分是程序的添加模式，这个部分的模式是在进行替换阶段用来生成新的程序片段的模式：在进行程序替换时，我们将添加模式中的元变量替换为匹配绑定阶段得到的绑定的程序实际变量，从而让添加模式转化为实际程序中可以插入的代码部分，从而进行代码的生成。
+
+在这些基本的语形要求之外，我们还对变换规则有一定的书写要求，从而保证规则在形式上不会产生不合法的行为，这些规则列举如下：
+\begin{itemize}
+\item 在上下文模式$I^{m}$，修改模式$I^-$以及添加模式$I^{+}$之中的语句模式都应该是SSA形式（静态单值模式）。这一条限制保证了一个元变量在匹配中绑定的语义对象都是固定的，而不会产生模式以及模式之间的变化，从而让用户书写的转换规则不会产生多义性。
+
+（相对的，我们也可以通过自动规则元变量的重命名来改变程序变换种非SSA形式的情况，但这样就会导致与用户意图之间的一个鸿沟，从而可能会在规则理解上产生一定程度的误解。）
+
+例如，当我们看以下的转换规则以及转换对象程序：
+
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=patl]
+// Transformation program
+(a:X->X, b:Y->Y) {
+	- a.m();
+	- a = b.n();
+	+ ...
+}
+
+// Target Program
+x.m();
+y = z.n();
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+在这一个例子中，我们左部的规则并非是SSA形式而右部的用户程序是正常的赋值语句。因此在绑定过程中，我们就会使得左部的元变量a绑定到不同的用户实际变量中（这里a会同时绑定到x，y，导致这两个变量并不成为别名关系），从而让用户理解的同一个变量规则产生了误解，让匹配时的绑定一致性收到了破坏。
+
+\item 在每一个变量中的删除语句 \code{-x=r}中，如果删除了一个元变量的使用，那我们就要求在生成的变量中必须有对应的添加语句来让删除的变量得到重生（要求在添加模式中存在语句\code{+x=r'}），从而避免变量被删除后的空引用问题。
+
+这条限制避免了在程序变化的时候我们因为匹配删除了一个变量的定义从而导致变量在程序转换之后的所有引用都得不到继续使用，引起上下文的错误依赖产生。
+
+给定以下的例子：
+
+\begin{center}
+\begin{smpage}{0.5\columnwidth}
+\begin{lstlisting}[style=patl]
+// Transformation Rule
+(a:X->X, b:Y->Y) {
+	- a = b.m();
+}
+
+// Target Program
+X x;
+x = y.m();
+x.n();
+\end{lstlisting}
+\end{smpage}
+\end{center}
+
+如果不限制这样的规则，在上图的转换中就会导致\code{x=y.m();}这一条语句被删除，而由于没有对应的变量来填充上下文中被删除的$x$，从而导致下文的\code{x.n();}就失去了依赖，从而导致了程序变换过程中的依赖错乱问题。
+
+\item 映射规则中的一个类型只能映射到一个类型，以及子类之间的映射必须保持子类关系不变。这一条对于类型映射的要求就保证了我们前文提及的程序变换过程中类型正确性的问题。当我们在进行类型替换的时候，我们能够通过一一映射来保证类型映射的唯一性，并由子类关系保证变换过程中原有能赋值的部分仍然能够在新的环境中保持子类关系。
+\end{itemize}
+
+在拥有以上三条保证之后，通过检查的转换规则就已经满足了其静态的正确性，随后就将进入转换之中的动态执行与检查阶段。
